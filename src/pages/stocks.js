@@ -19,8 +19,6 @@ class Module extends React.Component {
         this.onClick = this.onClick.bind(this);
     }
 
-ss
-
 
     componentDidMount() {
         console.log('FGetching stocks');
