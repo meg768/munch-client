@@ -2,8 +2,6 @@ import React from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 
 
-import { Button, Jumbotron } from 'reactstrap';
-import { Alert } from 'reactstrap';
 
 import Request from '../components/request.js';
 
@@ -11,8 +9,11 @@ class Module extends React.Component {
 
 
     constructor(args) {
+
         super(args);
 
+        console.log('args', args.match.params);
+        this.params = args.match.params;
         this.state = {};
         this.state.ready = false;
         this.state.stocks = [];
@@ -21,7 +22,7 @@ class Module extends React.Component {
 
 
     componentDidMount() {
-        console.log('FGetching stocks');
+        console.log('Fetching stocks');
         var request = new Request('http://app-o.se:3012');
         var query = {};
 
@@ -31,7 +32,6 @@ class Module extends React.Component {
 
         request.get('/query', {query:query}).then(response => {
             var stocks = response.body;
-            console.log(stocks);
             this.setState({ready:true, stocks:stocks});
         })
         .catch(error => {

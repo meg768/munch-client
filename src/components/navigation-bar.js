@@ -39,7 +39,7 @@ class NavigationBar extends React.Component {
                         <Nav className="ml-auto" navbar>
 
                             <NavItem>
-                                <NavLink href='#/stocks'>
+                                <NavLink href='#/stocks/C'>
                                     Tickers
                                 </NavLink>
                             </NavItem>
@@ -67,7 +67,12 @@ class NavigationBar extends React.Component {
                                     </DropdownItem>
                                     <DropdownItem divider />
 
-                                    <DropdownItem>Reset</DropdownItem>
+                                    <DropdownItem>
+                                        <NavLink href="#/stocks/D%25">D</NavLink>
+                                    </DropdownItem>
+                                    <DropdownItem>
+                                        <NavLink href="#/params?A=1">Params A = 1</NavLink>
+                                    </DropdownItem>
                                 </DropdownMenu>
                             </UncontrolledDropdown>
                         </Nav>
