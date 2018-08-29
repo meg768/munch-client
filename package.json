@@ -2,6 +2,7 @@
   "name": "munch-client",
   "version": "0.1.0",
   "private": true,
+  "homepage" : "http://app-o.se/munch",
   "dependencies": {
     "bootstrap": "^4.1.3",
     "react": "^16.4.2",
