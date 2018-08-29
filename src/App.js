@@ -23,7 +23,7 @@ class App extends React.Component {
                     <Route path="/home" component={Home} />
                     <Route path="/params/:id" component={Params} />
                     <Route path="/stocks/:id" component={Stocks} />
-                    <Route path="/stats" component={Statistics} />
+                    <Route path="/statistics" component={Statistics} />
                 </div>
             </Router>
         );

@@ -56,6 +56,8 @@ class Module extends React.Component {
 
             return (
                 <ListGroup>
+                    <ListGroupItem active disabled><h5>Tickers</h5></ListGroupItem>
+
                     {children}
                 </ListGroup>
             );

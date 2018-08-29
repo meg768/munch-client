@@ -10,7 +10,7 @@ class Module extends React.Component {
     return (
         <Page>
         <Jumbotron>
-            <h1>About</h1>
+            <h1>Om Munch</h1>
             <p>
 
 

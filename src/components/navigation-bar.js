@@ -51,8 +51,8 @@ class NavigationBar extends React.Component {
                             </NavItem>
 
                             <NavItem>
-                                <NavLink href='#/about'>
-                                    Om Munch
+                                <NavLink href='#/statistics'>
+                                    Statistik
                                 </NavLink>
                             </NavItem>
 
@@ -63,9 +63,6 @@ class NavigationBar extends React.Component {
                                 <DropdownMenu right>
                                     <DropdownItem>
                                         <NavLink href="#/about">Om Munch</NavLink>
-                                    </DropdownItem>
-                                    <DropdownItem>
-                                        <NavLink href="#/statistics">Statistik</NavLink>
                                     </DropdownItem>
                                 </DropdownMenu>
                             </UncontrolledDropdown>
