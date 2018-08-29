@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 import { Button } from 'reactstrap';
 import { Alert } from 'reactstrap';
@@ -45,14 +45,22 @@ class Example extends React.Component {
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
+
                             <NavItem>
-                                <NavLink href="/stocks">Tickers</NavLink>
+                                <NavLink href='#/stocks'>
+                                    Stockls
+                                </NavLink>
+                            </NavItem>
+
+                            <NavItem>
+                                <NavLink href='#/home'>
+                                    Home
+                                </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/home">Home</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href="/about">About</NavLink>
+                                <NavLink href='#/about'>
+                                    About
+                                </NavLink>
                             </NavItem>
                             <UncontrolledDropdown nav inNavbar>
                                 <DropdownToggle nav caret>
@@ -60,10 +68,10 @@ class Example extends React.Component {
                                 </DropdownToggle>
                                 <DropdownMenu right>
                                     <DropdownItem>
-                                        <NavLink href="/about">About</NavLink>
+                                        <NavLink href="#/about">About</NavLink>
                                     </DropdownItem>
                                     <DropdownItem>
-                                        <NavLink href="/home">Home</NavLink>
+                                        <NavLink href="#/home">Home</NavLink>
                                     </DropdownItem>
                                     <DropdownItem>Option 2</DropdownItem>
                                     <DropdownItem divider />
@@ -76,7 +84,7 @@ class Example extends React.Component {
             </div>
         );
     }
-};
+}
 
 class App extends React.Component {
     render() {
