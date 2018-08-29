@@ -3,10 +3,8 @@ var querystring  = require('querystring');
 var Path         = require('path');
 var URL          = require('url');
 
-var sprintf     = require('yow/sprintf');
-var extend      = require('yow/extend');
+//var extend      = require('yow/extend');
 
-var isArray     = require('yow/is').isArray;
 var isString    = require('yow/is').isString;
 var isObject    = require('yow/is').isObject;
 var isFunction  = require('yow/is').isFunction;
@@ -20,7 +18,7 @@ class Gopher {
 		var options = {protocol:'https:'};
 
 		if (isObject(arguments[0])) {
-			extend(options, arguments[0]);
+			Object.assign(options, arguments[0]);
 		}
 
 		else if (isString(arguments[0])) {
@@ -37,7 +35,7 @@ class Gopher {
 				options.hostname = url.hostname;
 
 			if (isObject(arguments[1]))
-				extend(options, arguments[1]);
+				Object.assign(options, arguments[1]);
 
 		}
 
@@ -45,7 +43,7 @@ class Gopher {
             debug = isFunction(options.debug) ? options.debug : console.log;
         }
 
-		this.defaultOptions = extend({}, options);
+		this.defaultOptions = Object.assign({}, options);
 
 	};
 
@@ -78,11 +76,11 @@ class Gopher {
 				options.method = arguments[0];
 				options.path   = arguments[1];
 
-				extend(options, arguments[2]);
+				Object.assign(options, arguments[2]);
 			}
 			else {
 				options.method = arguments[0];
-				extend(options, arguments[1]);
+				Object.assign(options, arguments[1]);
 			}
 		}
 		else if (isObject(arguments[0])) {
@@ -113,7 +111,7 @@ class Gopher {
 			headers['content-length'] = data == undefined ? 0 : data.length;
 
 			var params = {};
-			extend(params, self.defaultOptions, options, {headers:headers});
+			Object.assign(params, self.defaultOptions, options, {headers:headers});
 
 			if (isString(params.path) && isObject(params.params)) {
 				var parts = [];

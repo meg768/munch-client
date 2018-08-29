@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 
-import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
-
-
+import logo from '../logo.svg';
 
 
 import {
@@ -30,13 +28,21 @@ class NavigationBar extends React.Component {
         });
     }
     render() {
+        var style = {};
+
+        style.border = '0.05em solid rgba(0, 0, 0, 0.1)';
+
         return (
-            <div>
+            <div style={style}>
                 <Navbar color="light" light expand="md">
-                    <NavbarBrand href="/">Munch</NavbarBrand>
+                    <NavbarBrand href="/">
+                        <img alt="Hej" src={logo}/>
+                        Munch
+                    </NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
+
 
                             <NavItem>
                                 <NavLink href='#/stocks/C'>
@@ -45,33 +51,21 @@ class NavigationBar extends React.Component {
                             </NavItem>
 
                             <NavItem>
-                                <NavLink href='#/home'>
-                                    Home
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
                                 <NavLink href='#/about'>
-                                    About
+                                    Om Munch
                                 </NavLink>
                             </NavItem>
+
                             <UncontrolledDropdown nav inNavbar>
                                 <DropdownToggle nav caret>
-                                    Options
+                                    Alternativ
                                 </DropdownToggle>
                                 <DropdownMenu right>
                                     <DropdownItem>
-                                        <NavLink href="#/about">About</NavLink>
+                                        <NavLink href="#/about">Om Munch</NavLink>
                                     </DropdownItem>
                                     <DropdownItem>
-                                        <NavLink href="#/home">Home</NavLink>
-                                    </DropdownItem>
-                                    <DropdownItem divider />
-
-                                    <DropdownItem>
-                                        <NavLink href="#/stocks/D%25">D</NavLink>
-                                    </DropdownItem>
-                                    <DropdownItem>
-                                        <NavLink href="#/params?A=1">Params A = 1</NavLink>
+                                        <NavLink href="#/statistics">Statistik</NavLink>
                                     </DropdownItem>
                                 </DropdownMenu>
                             </UncontrolledDropdown>

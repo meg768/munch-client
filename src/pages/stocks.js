@@ -1,5 +1,6 @@
 import React from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
+import Page from '../components/page.js';
 
 
 
@@ -63,9 +64,9 @@ class Module extends React.Component {
 
     render() {
         return (
-            <div>
+            <Page>
                 {this.renderList()}
-            </div>
+            </Page>
         );
     }
 }
