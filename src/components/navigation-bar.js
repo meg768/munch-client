@@ -3,6 +3,21 @@ import React from 'react';
 
 import logo from '../logo.svg';
 
+/*
+<UncontrolledDropdown nav inNavbar>
+    <DropdownToggle nav caret>
+        Mer
+    </DropdownToggle>
+    <DropdownMenu right>
+        <DropdownItem>
+            <NavLink href="#/Charts">Grafer</NavLink>
+        </DropdownItem>
+        <DropdownItem>
+            <NavLink href="#/about">Om Munch</NavLink>
+        </DropdownItem>
+    </DropdownMenu>
+</UncontrolledDropdown>
+*/
 
 import {
     Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem,
@@ -55,20 +70,17 @@ class NavigationBar extends React.Component {
                                     Statistik
                                 </NavLink>
                             </NavItem>
+                            <NavItem>
+                                <NavLink href='#/charts?symbol=^OMX'>
+                                    OMX
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink href='#/charts?symbol=AAPL'>
+                                    AAPL
+                                </NavLink>
+                            </NavItem>
 
-                            <UncontrolledDropdown nav inNavbar>
-                                <DropdownToggle nav caret>
-                                    Mer
-                                </DropdownToggle>
-                                <DropdownMenu right>
-                                    <DropdownItem>
-                                        <NavLink href="#/Charts">Grafer</NavLink>
-                                    </DropdownItem>
-                                    <DropdownItem>
-                                        <NavLink href="#/about">Om Munch</NavLink>
-                                    </DropdownItem>
-                                </DropdownMenu>
-                            </UncontrolledDropdown>
                         </Nav>
                     </Collapse>
                 </Navbar>

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import QueryString from 'query-string';
 
 
 
@@ -10,8 +10,7 @@ class Module extends React.Component {
 
         super(args);
 
-        console.log('args', args.match.params);
-        this.params = args.match.params;
+        console.log('args', args);
         this.state = {};
         this.state.ready = false;
         this.state.stocks = [];
@@ -20,7 +19,15 @@ class Module extends React.Component {
 
 
     componentDidMount() {
-    console.log(this.props.location.query);
+        console.log('props', this.props);
+        if (this.props.location.search) {
+            var q = QueryString.parse(this.props.location.search);
+            console.log('qs', q);
+
+        }
+        else {
+            console.log('No params');
+        }
     }
 
     onClick() {
@@ -29,10 +36,9 @@ class Module extends React.Component {
     }
 
     renderList() {
-        console.log(this.params);
         return(
             <p>
-                {this.params.id}
+                HP
             </p>
         );
     }
@@ -40,6 +46,7 @@ class Module extends React.Component {
     render() {
         return (
             <div>
+            HEJ
                 {this.renderList()}
             </div>
         );

@@ -2,12 +2,10 @@
 import React from 'react';
 
 
-import { Jumbotron } from 'reactstrap';
 import { ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap';
 
 import Page from '../components/page.js';
 import Request from '../components/request.js';
-import { Table } from 'reactstrap';
 
 
 export default class Module extends React.Component {
