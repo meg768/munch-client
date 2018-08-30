@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListGroup, ListGroupItem } from 'reactstrap';
+import { ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap';
 import Page from '../components/page.js';
 
 
@@ -56,7 +56,7 @@ class Module extends React.Component {
 
             return (
                 <ListGroup>
-                    <ListGroupItem active disabled><h5>Tickers</h5></ListGroupItem>
+                    <ListGroupItem disabled><ListGroupItemHeading>Tickers</ListGroupItemHeading></ListGroupItem>
 
                     {children}
                 </ListGroup>

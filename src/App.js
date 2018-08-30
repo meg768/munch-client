@@ -8,6 +8,7 @@ import About from './pages/about.js';
 import Stocks from './pages/stocks.js';
 import Params from './pages/params.js';
 import Statistics from './pages/statistics.js';
+import Charts from './pages/charts.js';
 import NavigationBar from './components/navigation-bar.js';
 
 
@@ -24,6 +25,7 @@ class App extends React.Component {
                     <Route path="/params/:id" component={Params} />
                     <Route path="/stocks/:id" component={Stocks} />
                     <Route path="/statistics" component={Statistics} />
+                    <Route path="/charts" component={Charts} />
                 </div>
             </Router>
         );

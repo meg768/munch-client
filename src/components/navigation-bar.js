@@ -35,7 +35,7 @@ class NavigationBar extends React.Component {
         return (
             <div style={style}>
                 <Navbar color="light" light expand="md">
-                    <NavbarBrand href="/">
+                    <NavbarBrand href="#/">
                         <img alt="Hej" src={logo}/>
                         Munch
                     </NavbarBrand>
@@ -58,9 +58,12 @@ class NavigationBar extends React.Component {
 
                             <UncontrolledDropdown nav inNavbar>
                                 <DropdownToggle nav caret>
-                                    Alternativ
+                                    Mer
                                 </DropdownToggle>
                                 <DropdownMenu right>
+                                    <DropdownItem>
+                                        <NavLink href="#/Charts">Grafer</NavLink>
+                                    </DropdownItem>
                                     <DropdownItem>
                                         <NavLink href="#/about">Om Munch</NavLink>
                                     </DropdownItem>

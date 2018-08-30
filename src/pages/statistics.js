@@ -3,7 +3,7 @@ import React from 'react';
 
 
 import { Jumbotron } from 'reactstrap';
-import { ListGroup, ListGroupItem } from 'reactstrap';
+import { ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap';
 
 import Page from '../components/page.js';
 import Request from '../components/request.js';
@@ -20,7 +20,6 @@ export default class Module extends React.Component {
         this.state.ready = false;
         this.state.stats = {};
     }
-
 
 
     componentDidMount() {
@@ -55,7 +54,7 @@ export default class Module extends React.Component {
 
             return (
                 <ListGroup>
-                    <ListGroupItem active disabled><h5>Statistik</h5></ListGroupItem>
+                    <ListGroupItem disabled><ListGroupItemHeading>Statistik</ListGroupItemHeading></ListGroupItem>
                     {children}
                 </ListGroup>
             );
