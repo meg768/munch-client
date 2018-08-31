@@ -29,7 +29,7 @@ class Module extends React.Component {
 
         query.sql        = 'select * from stocks where symbol like ?';
         query.values     = 'A%';
-        //query.sql = 'select * from stocks';
+
 
         request.get('/query', {query:query}).then(response => {
             var stocks = response.body;

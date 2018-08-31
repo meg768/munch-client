@@ -1,5 +1,5 @@
 import React from 'react';
-import QueryString from 'query-string';
+import QueryString from 'querystring';
 
 
 
