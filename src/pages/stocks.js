@@ -4,7 +4,7 @@ import Page from '../components/page.js';
 
 
 
-import Request from '../components/request.js';
+import Request from 'yow/request';
 
 class Module extends React.Component {
 
