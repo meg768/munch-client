@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactHighcharts from 'react-highcharts';
 //import ReactHighstock from 'react-highcharts/ReactHighstock';
-import Request from '../components/request.js';
+import Request from 'yow/request';
 import sprintf from 'yow/sprintf';
-import QueryString from 'query-string';
+import QueryString from 'querystring';
 
 
 class Module extends React.Component {

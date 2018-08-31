@@ -3,17 +3,19 @@ var querystring  = require('querystring');
 var Path         = require('path');
 var URL          = require('url');
 
-//var extend      = require('yow/extend');
-
 var isString    = require('yow/is').isString;
 var isObject    = require('yow/is').isObject;
 var isFunction  = require('yow/is').isFunction;
 
-var debug = function() {};
+function debug() {
+};
 
-class Gopher {
 
-	constructor() {
+function Gopher() {
+
+	var self = this;
+
+	function constructor() {
 
 		var options = {protocol:'https:'};
 
@@ -43,28 +45,29 @@ class Gopher {
             debug = isFunction(options.debug) ? options.debug : console.log;
         }
 
-		this.defaultOptions = Object.assign({}, options);
-
-	};
-
-	get() {
-		return this.request.apply(this, ['GET', ...arguments]);
+		self.defaultOptions = Object.assign({}, options);
 	}
 
-	put() {
-		return this.request.apply(this, ['PUT', ...arguments]);
+	this.get = function() {
+		return self.request.apply(self, ['GET'].concat(Array.prototype.slice.call(arguments)));
 	}
 
-	post() {
-		return this.request.apply(this, ['POST', ...arguments]);
+	this.delete = function() {
+		return self.request.apply(self, ['DELETE'].concat(Array.prototype.slice.call(arguments)));
 	}
 
-	delete() {
-		return this.request.apply(this, ['DELETE', ...arguments]);
+	this.post = function() {
+		return self.request.apply(self, ['POST'].concat(Array.prototype.slice.call(arguments)));
 	}
 
+	this.put = function() {
+		return self.request.apply(self, ['PUT'].concat(Array.prototype.slice.call(arguments)));
+	}
 
-	request() {
+	this.request = function() {
+
+
+		debug('REQUEST', arguments);
 
 		var self    = this;
 		var https   = require('https');
@@ -205,6 +208,10 @@ class Gopher {
 	        request.end();
 	    })
 	};
-};
+
+
+	constructor.apply(self, arguments);
+}
+
 
 module.exports = Gopher;
