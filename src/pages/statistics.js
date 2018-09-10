@@ -5,7 +5,8 @@ import React from 'react';
 import { ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap';
 
 import Page from '../components/page.js';
-import Request from '../components/request.js';
+import Request from 'yow/request';
+import Spinner from '../components/spinner.js';
 
 
 export default class Module extends React.Component {
@@ -15,8 +16,8 @@ export default class Module extends React.Component {
         super(args);
 
         this.state = {};
-        this.state.ready = false;
-        this.state.stats = {};
+        this.state.stats = null;
+        this.state.error = null;
     }
 
 
@@ -33,17 +34,17 @@ export default class Module extends React.Component {
         query.sql += "select 'Första uppdatering', (select CAST(DATE_FORMAT(date, '%Y-%m-%d') AS char) from quotes order by date asc limit 1)";
 
         request.get('/query', {query:query}).then(response => {
-            console.log(response.body);
-            this.setState({ready:true, stats:response.body});
+            this.setState({stats:response.body});
         })
         .catch(error => {
             console.log(error);
+            this.setState({error:error});
         })
 
     }
 
     renderList() {
-        if (this.state.ready) {
+        if (this.state.stats) {
             var children = this.state.stats.map((stat, index) => {
                 return (
                     <ListGroupItem key={index}>{stat.name} - {stat.number}</ListGroupItem>
@@ -60,6 +61,9 @@ export default class Module extends React.Component {
     }
 
     render() {
+        if (!this.state.stats) {
+            return <Spinner/>;
+        }
         return (
             <Page>
                 {this.renderList()}

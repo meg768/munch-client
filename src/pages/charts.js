@@ -4,7 +4,7 @@ import ReactHighcharts from 'react-highcharts';
 import Request from 'yow/request';
 import sprintf from 'yow/sprintf';
 import QueryString from 'querystring';
-
+import Spinner from '../components/spinner.js';
 
 class Module extends React.Component {
 
@@ -117,7 +117,7 @@ console.log(params);
         if (this.state.ready)
             return (<ReactHighcharts config={this.state.config} ref="chart"></ReactHighcharts>)
         else {
-            return (<div></div>);
+            return (<Spinner/>);
         }
     }
 }

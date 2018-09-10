@@ -5,14 +5,20 @@
   "homepage": "http://app-o.se/munch",
   "dependencies": {
     "bootstrap": "^4.1.3",
+    "halogen": "^0.2.0",
     "highcharts": "^6.1.1",
+    "i": "^0.3.6",
+    "npm": "^6.4.1",
     "query-string": "^6.1.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-highcharts": "^16.0.2",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.5",
+    "react-spinners": "^0.4.5",
     "reactstrap": "^6.4.0",
+    "twilio-console": "^1.0.5",
+    "yahoo-finance": "^0.3.5",
     "yow": "^1.0.89"
   },
   "scripts": {

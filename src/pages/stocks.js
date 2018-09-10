@@ -6,6 +6,10 @@ import Page from '../components/page.js';
 
 import Request from 'yow/request';
 
+
+function debug() {
+    console.log.apply(null, arguments);
+}
 class Module extends React.Component {
 
 
@@ -24,7 +28,7 @@ class Module extends React.Component {
 
     componentDidMount() {
         console.log('Fetching stocks');
-        var request = new Request('http://app-o.se:3012');
+        var request = new Request('http://app-o.se:3012', {debug:debug});
         var query = {};
 
         query.sql        = 'select * from stocks where symbol like ?';

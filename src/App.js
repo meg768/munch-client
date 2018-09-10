@@ -9,8 +9,8 @@ import Stocks from './pages/stocks.js';
 import Params from './pages/params.js';
 import Statistics from './pages/statistics.js';
 import Charts from './pages/charts.js';
+import NewStock from './pages/new-stock.js';
 import NavigationBar from './components/navigation-bar.js';
-
 
 class App extends React.Component {
     render() {
@@ -26,6 +26,7 @@ class App extends React.Component {
                     <Route path="/stocks/:id" component={Stocks} />
                     <Route path="/statistics" component={Statistics} />
                     <Route path="/charts" component={Charts} />
+                    <Route path="/new-stock" component={NewStock} />
                 </div>
             </Router>
         );

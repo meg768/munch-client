@@ -2,6 +2,7 @@ import React from 'react';
 
 
 import logo from '../logo.svg';
+import Icon from './icon.js';
 
 /*
 <UncontrolledDropdown nav inNavbar>
@@ -51,36 +52,47 @@ class NavigationBar extends React.Component {
             <div style={style}>
                 <Navbar color="light" light expand="md">
                     <NavbarBrand href="#/">
-                        <img alt="Hej" src={logo}/>
+                        <Icon style={{transform:'scale(3.0)', color:'green', marginRight:'0.75em', marginLeft:'0.5em'}} icon='chart-line'></Icon>
                         Munch
                     </NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
-
-
-                            <NavItem>
-                                <NavLink href='#/stocks/C'>
-                                    Tickers
-                                </NavLink>
-                            </NavItem>
-
                             <NavItem>
                                 <NavLink href='#/statistics'>
                                     Statistik
                                 </NavLink>
                             </NavItem>
-                            <NavItem>
-                                <NavLink href='#/charts?symbol=^OMX'>
-                                    OMX
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href='#/charts?symbol=AAPL'>
-                                    AAPL
-                                </NavLink>
-                            </NavItem>
-
+                            <UncontrolledDropdown nav inNavbar>
+                                <DropdownToggle nav caret>
+                                    Grafer
+                                </DropdownToggle>
+                                <DropdownMenu right>
+                                    <DropdownItem>
+                                        <NavLink href='#/charts?symbol=^OMX'>
+                                            OMX
+                                        </NavLink>
+                                        <NavLink href='#/charts?symbol=AAPL'>
+                                            AAPL
+                                        </NavLink>
+                                    </DropdownItem>
+                                </DropdownMenu>
+                            </UncontrolledDropdown>
+                            <UncontrolledDropdown nav inNavbar>
+                                <DropdownToggle nav caret>
+                                    Aktier
+                                </DropdownToggle>
+                                <DropdownMenu right>
+                                    <DropdownItem>
+                                        <NavLink href='#/stocks/C'>
+                                            Visa alla aktier
+                                        </NavLink>
+                                        <NavLink href='#/new-stock'>
+                                            Lägg till symbol
+                                        </NavLink>
+                                    </DropdownItem>
+                                </DropdownMenu>
+                            </UncontrolledDropdown>
                         </Nav>
                     </Collapse>
                 </Navbar>
