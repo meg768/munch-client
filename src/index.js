@@ -1,11 +1,11 @@
+import './fontello/css/fontello-embedded.css';
+import './bootstrap/darkly/bootstrap.min.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-import './bootstrap/css/bootstrap.min.css';
-import './fontello/css/fontello.css';
-
-ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
+
+ReactDOM.render(<App />, document.getElementById('app'));

@@ -3,6 +3,7 @@ import React from 'react';
 
 
 import { ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 
 import Page from '../components/page.js';
 import Request from 'yow/request';
@@ -66,8 +67,9 @@ export default class Module extends React.Component {
         }
         return (
             <Page>
+                <Container>
                 {this.renderList()}
-
+                </Container>
             </Page>
         );
     }

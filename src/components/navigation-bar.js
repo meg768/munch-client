@@ -59,8 +59,18 @@ class NavigationBar extends React.Component {
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
                             <NavItem>
+                                <NavLink href='#/stocks'>
+                                    Aktier
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
                                 <NavLink href='#/statistics'>
                                     Statistik
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink href='#/new-stock'>
+                                    Lägg till symbol
                                 </NavLink>
                             </NavItem>
                             <UncontrolledDropdown nav inNavbar>
@@ -74,21 +84,6 @@ class NavigationBar extends React.Component {
                                         </NavLink>
                                         <NavLink href='#/charts?symbol=AAPL'>
                                             AAPL
-                                        </NavLink>
-                                    </DropdownItem>
-                                </DropdownMenu>
-                            </UncontrolledDropdown>
-                            <UncontrolledDropdown nav inNavbar>
-                                <DropdownToggle nav caret>
-                                    Aktier
-                                </DropdownToggle>
-                                <DropdownMenu right>
-                                    <DropdownItem>
-                                        <NavLink href='#/stocks/C'>
-                                            Visa alla aktier
-                                        </NavLink>
-                                        <NavLink href='#/new-stock'>
-                                            Lägg till symbol
                                         </NavLink>
                                     </DropdownItem>
                                 </DropdownMenu>
