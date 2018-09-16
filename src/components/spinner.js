@@ -26,7 +26,7 @@ class Module extends React.Component {
         style.bottom = 0;
         return (
                 <div style={style}>
-                    <Loader size='50' loading={true} color={'lightblue'}/>
+                    <Loader size={50} loading={true} color={'lightblue'}/>
                 </div>
         );
     }

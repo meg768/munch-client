@@ -73,21 +73,6 @@ class NavigationBar extends React.Component {
                                     Lägg till symbol
                                 </NavLink>
                             </NavItem>
-                            <UncontrolledDropdown nav inNavbar>
-                                <DropdownToggle nav caret>
-                                    Grafer
-                                </DropdownToggle>
-                                <DropdownMenu right>
-                                    <DropdownItem>
-                                        <NavLink href='#/charts?symbol=^OMX'>
-                                            OMX
-                                        </NavLink>
-                                        <NavLink href='#/charts?symbol=AAPL'>
-                                            AAPL
-                                        </NavLink>
-                                    </DropdownItem>
-                                </DropdownMenu>
-                            </UncontrolledDropdown>
                         </Nav>
                     </Collapse>
                 </Navbar>

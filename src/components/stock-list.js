@@ -27,12 +27,27 @@ class PopupIconMenuItem extends React.Component {
     }
 
 
+        render() {
+            var {icon, style, ...props} = this.props;
+
+            return (
+                <i className={'icon-'+icon} {...props} style={style} />
+            );
+
+        }
+
     render() {
-        var listGroupItemStyle = {};
-        listGroupItemStyle.paddingTop = '0.5em';
-        listGroupItemStyle.paddingBottom = '0.5em';
+        var {style, onClick, ...props} = this.props;
+
+        style = style || {};
+
+        style.paddingTop = '0.5em';
+        style.paddingBottom = '0.5em';
+
+        console.log(onClick);
+
         return (
-            <ListGroupItem action style={listGroupItemStyle}>
+            <ListGroupItem action onClick={onClick} style={style} {...props}>
                 {this.props.children}
             </ListGroupItem>
         );
@@ -131,9 +146,7 @@ export default class Module extends React.Component {
         );
     }
 
-    onClickStock(stock) {
-        alert('Clicked on stock', stock.symbol);
-    }
+
     renderRow(stock, rowNumber) {
         var columns = this.props.columns.map((column, index) => {
             return column.name;
@@ -148,24 +161,31 @@ export default class Module extends React.Component {
             );
         });
 
-        th.push(
-            <td key={9999}>
-                <PopupIconMenu id={rowNumber} µµ>
-                    <PopupIconMenuItem>
-                        <span>
-                            <Glyph icon='cancel' style={{fontSize: '120%', color:'red', opacity:'0.5'}}/>
-                            Tag bort
+        if (this.props.popupMenu) {
+            var menuItems = this.props.popupMenu.map((menuItem, index) => {
+                return (
+                    <PopupIconMenuItem key={index}>
+                        <span onClick={menuItem.onClick.bind(this, stock)}>
+                            {menuItem.text}
                         </span>
                     </PopupIconMenuItem>
-                    <PopupIconMenuItem>
-                        <div>
-                            <Glyph icon='chart-line' style={{fontSize: '120%', color:'green', opacity:'0.5'}}/>
-                            Visa graf
-                        </div>
-                    </PopupIconMenuItem>
-                </PopupIconMenu>
-            </td>
-        );
+
+                );
+            });
+
+            if (menuItems.length > 0) {
+                th.push(
+                    <td key={9999}>
+                        <PopupIconMenu id={rowNumber}>
+                            {menuItems}
+                        </PopupIconMenu>
+                    </td>
+                );
+
+            };
+
+        }
+
 
         return th;
     }

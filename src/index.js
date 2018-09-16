@@ -1,5 +1,5 @@
 import './fontello/css/fontello-embedded.css';
-import './bootstrap/darkly/bootstrap.min.css';
+import './bootstrap/materia/bootstrap.min.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
