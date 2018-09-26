@@ -68,11 +68,6 @@ class NavigationBar extends React.Component {
                                     Statistik
                                 </NavLink>
                             </NavItem>
-                            <NavItem>
-                                <NavLink href='#/new-stock'>
-                                    Lägg till symbol
-                                </NavLink>
-                            </NavItem>
                         </Nav>
                     </Collapse>
                 </Navbar>

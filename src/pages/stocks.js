@@ -7,6 +7,11 @@ import Page from '../components/page.js';
 import StockList from '../components/stock-list.js';
 import Glyph from '../components/glyph.js';
 import Loader from 'react-spinners/PulseLoader';
+import sprintf from 'yow/sprintf';
+import {isString} from 'yow/is';
+import ButtonRow from '../components/button-row.js';
+
+import Timer from 'yow/timer';
 
 
 import Request from 'yow/request';
@@ -27,9 +32,11 @@ export default class Module extends React.Component {
 
         this.state = {};
         this.state.stocks = null;
+        this.state.hits = 0;
         this.state.search = '';
-        this.message = '';
+        this.state.message = '';
         this.state.loading = false;
+        this.typeTimer = new Timer();
 
         this.onSearch = this.onSearch.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -38,22 +45,19 @@ export default class Module extends React.Component {
         this.onChangeStock = this.onChangeStock.bind(this);
     }
 
-
-    mysql(query) {
+    run(promise) {
 
         return new Promise((resolve, reject) => {
-            console.log('Fetching stocks');
             var time = new Date();
-            var request = new Request('http://app-o.se:3012', {debug:debug});
 
-            request.get('/query', {query:query}).then(response => {
-                return response.body;
-            })
-            .then((result) => {
+            this.setState({loading:true});
+
+            promise.then((result) => {
                 var now = new Date();
-                var delay =  Math.max(1000, Math.abs(time.valueOf() - now.valueOf()));
+                var delay =  Math.max(750, Math.abs(time.valueOf() - now.valueOf()));
 
                 setTimeout(() => {
+                    this.setState({loading:false});
                     resolve(result);
                 }, delay);
 
@@ -66,45 +70,101 @@ export default class Module extends React.Component {
 
     }
 
+
+
     search(name) {
-        var query = {};
+        return new Promise((resolve, reject) => {
 
-        query.sql        = 'SELECT * FROM stocks WHERE symbol LIKE ? OR name LIKE ? LIMIT 100';
-        query.values     = [];
-        query.values.push('%' + name + '%');
-        query.values.push('%' + name + '%');
+            var search = {};
+            search.hits = 0;
+            search.stocks = [];
 
-        return this.mysql(query);
+            Promise.resolve().then(() => {
+                var query = {};
+                query.sql = 'SELECT COUNT(symbol) AS hits FROM stocks WHERE symbol LIKE ? OR name LIKE ?';
+                query.values = [];
+                query.values.push('%' + name + '%');
+                query.values.push('%' + name + '%');
+
+                return this.mysql(query);
+
+            })
+
+            .then(results => {
+                search.hits = results[0].hits;
+
+                var query = {};
+                query.sql        = 'SELECT * FROM stocks WHERE symbol LIKE ? OR name LIKE ? LIMIT 100';
+                query.values     = [];
+                query.values.push('%' + name + '%');
+                query.values.push('%' + name + '%');
+
+                return this.mysql(query);
+
+            })
+            .then(results => {
+                search.stocks = results;
+                return Promise.resolve();
+            })
+            .then(() => {
+                resolve(search);
+            })
+            .catch(error => {
+                reject(error);
+            });
+
+        });
     }
 
+
+
+    mysql(query) {
+
+        return new Promise((resolve, reject) => {
+            var request = new Request('http://app-o.se:3012', {debug:debug});
+
+            request.get('/query', {query:query}).then(response => {
+                return response.body;
+            })
+            .then((result) => {
+                resolve(result);
+            })
+            .catch(error => {
+                reject(error);
+            })
+
+        });
+
+    }
 
     onChange(event) {
         var state = {};
         state[event.target.id] = event.target.value.toUpperCase();
         console.log(state);
         this.setState(state);
+
+        // this.typeTimer.setTimer(1000, this.onSearch);
     }
 
     componentDidMount() {
-        this.setState({loading:true, stocks:null, message:null});
 
-        this.search('AAPL').then(stocks => {
-            this.setState({stocks:stocks, loading:false});
+        this.run(this.search('AAPL')).then(result => {
+            this.setState({hits:result.hits, stocks:result.stocks});
         })
         .catch(error => {
-            this.setState({loading:false});
         })
 
     }
 
     onSearch() {
-        this.setState({loading:true, stocks:null, message:null});
 
-        this.search(this.state.search).then(stocks => {
-            this.setState({stocks:stocks, loading:false});
+        this.setState({stocks:null, hits:0, message:''});
+
+        this.run(this.search(this.state.search)).then(result => {
+            this.setState({hits:result.hits, stocks:result.stocks});
         })
         .catch(error => {
-            this.setState({message:error.message, loading:false});
+            this.setState({message:error.message});
         })
 
 
@@ -128,13 +188,13 @@ export default class Module extends React.Component {
 
         console.log(query);
 
-        this.setState({stocks:null, loading:true});
+        this.setState({stocks:null});
 
-        this.mysql(query).then(result => {
-            this.setState({message:'OK', loading:false});
+        this.run(this.mysql(query)).then(result => {
+            this.setState({message:'OK'});
         })
         .catch(error => {
-            this.setState({message:error.message, loading:false});
+            this.setState({message:error.message});
         })
     }
 
@@ -154,7 +214,9 @@ export default class Module extends React.Component {
             if (this.state.stocks.length == 0) {
                 return (
                     <Alert color="light">
-                        {'Nope!'}
+                        <strong>
+                        {'Hittade ingenting.'}
+                        </strong>
                     </Alert>
                 );
 
@@ -171,7 +233,7 @@ export default class Module extends React.Component {
 
     renderMessage() {
 
-        if (this.state.message) {
+        if (!this.state.loading && isString(this.state.message) && this.state.message.length > 0) {
             return (
                 <Alert color="info">
                     {this.state.message}
@@ -180,6 +242,23 @@ export default class Module extends React.Component {
         }
 
     }
+
+    renderHitCount() {
+        if (this.state.stocks && this.state.hits > this.state.stocks.length) {
+            return (
+
+                <div>
+                    <strong>
+                        {sprintf('Visar %s av %d symboler', this.state.stocks.length, this.state.hits)}
+                    </strong>
+                    <br/>
+                    <br/>
+                </div>
+
+            );
+        }
+    }
+
 
     renderLoader() {
 
@@ -199,29 +278,49 @@ export default class Module extends React.Component {
 
         }
     }
+    renderButtons() {
+        if (!this.state.loading) {
+            return(
+                <ButtonRow style={{textAlign:'right'}}>
+                    <Button color='primary' href='#/new-stock'>
+                        <Glyph icon='plus-circled'>
+                        </Glyph>
+                        Lägg till symboler
+                    </Button>
+
+                </ButtonRow>
+
+            );
+
+        }
+
+    }
 
     render() {
-        var columnStyle = {marginTop:'0.5em', marginBottom:'0.5em', textAlign:'center'};
+        var columnStyle = {marginTop:'0.5em', marginBottom:'0.5em'};
         return (
             <Page>
                 <Container>
                     <Form>
-                        <FormGroup row>
-                            <Col xs="12" sm="9" md="10" lg="11" style={columnStyle}>
-                                <Input id='search' type="text" disabled={this.state.loading} value={this.state.search} placeholder="Sök" onKeyPress={this.onKeyPress} onChange={this.onChange}/>
-                            </Col>
-                            <Col xs="12" sm="3" md="2" lg="1" style={columnStyle}>
-                                <Button disabled={this.state.loading} color='primary' onClick={this.onSearch} style={{textAlign:'center', width:'100%'}}>
+                        <FormGroup>
+                                <Input id='search' type="text" disabled={this.state.loading} value={this.state.search} placeholder="Sök efter aktie" onKeyPress={this.onKeyPress} onChange={this.onChange}/>
+                        </FormGroup>
+                        <FormGroup>
+                            <ButtonRow style={{textAlign:'right'}}>
+                                <Button disabled={this.state.loading || this.state.search.length == 0} color='primary' onClick={this.onSearch}>
                                     <Glyph icon='search-solid'>
                                     </Glyph>
+                                    Sök
                                 </Button>
-                            </Col>
+                            </ButtonRow>
                         </FormGroup>
                     </Form>
                     <div>
+                        {this.renderHitCount()}
                         {this.renderList()}
-                        {this.renderLoader()}
+                        {this.renderButtons()}
                         {this.renderMessage()}
+                        {this.renderLoader()}
                     </div>
                 </Container>
             </Page>

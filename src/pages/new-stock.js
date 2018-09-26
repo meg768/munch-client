@@ -13,6 +13,7 @@ import { Table } from 'reactstrap';
 import Loader from 'react-spinners/PulseLoader';
 
 import Icon from '../components/icon.js';
+import Glyph from '../components/glyph.js';
 
 import ButtonRow from '../components/button-row.js';
 //import ButtonRow from '../components/button-row.js';
@@ -156,7 +157,7 @@ export default class Example extends React.Component {
         this.state.loading = false;
 
 
-        this.state.busy = false;
+        this.state.loading = false;
         this.onChange = this.onChange.bind(this);
         this.onOK = this.onOK.bind(this);
         this.onCancel = this.onCancel.bind(this);
@@ -183,11 +184,14 @@ export default class Example extends React.Component {
         return new Promise((resolve, reject) => {
             var time = new Date();
 
+            this.setState({loading:true});
+
             promise.then((result) => {
                 var now = new Date();
                 var delay =  Math.max(1000, Math.abs(time.valueOf() - now.valueOf()));
 
                 setTimeout(() => {
+                    this.setState({loading:false});
                     resolve(result);
                 }, delay);
 
@@ -340,8 +344,6 @@ export default class Example extends React.Component {
         var symbols = {};
         var newStocks = [];
 
-        this.setState({busy:true});
-
         this.state.stocks.forEach((stock, index) => {
             symbols[stock.symbol] = stock;
         });
@@ -358,20 +360,17 @@ export default class Example extends React.Component {
              return a.symbol.localeCompare(b.symbol);
         });
 
-        this.setState({stocks:newStocks, symbol:'', busy:false});
+        this.setState({stocks:newStocks, symbol:''});
     }
 
 
     onOK(event) {
 
-        this.setState({busy:true});
         this.run(this.getStocks(this.state.symbol)).then((stocks) => {
 
             this.addStocks(stocks);
-            this.setState({busy:false});
         })
         .catch((error) => {
-            this.setState(this.busy:false);
             console.error(error);
         });
     }
@@ -381,16 +380,16 @@ export default class Example extends React.Component {
     }
 
     onSaveStocks() {
-        this.setState({busy:true});
+
         this.run(this.saveStocks(this.state.stocks)).then(() => {
-            this.setState({busy:false, stocks:[]});
+            this.setState({stocks:[]});
         })
         .catch((error) => {
-            this.setState({busy:false});
             console.error(error);
         });
 
     }
+
     onRemoveStock(symbol) {
 
         var stocks = this.state.stocks.filter((stock) => {
@@ -412,7 +411,7 @@ export default class Example extends React.Component {
 
     renderLoader() {
 
-        if (this.state.busy) {
+        if (this.state.loading) {
             var style = {};
 
             style.textAlign = 'center';
@@ -428,25 +427,32 @@ export default class Example extends React.Component {
 
         }
     }
+
     render() {
+        var columnStyle = {marginTop:'0.5em', marginBottom:'0.5em'};
 
         return (
             <Page>
                 <Container>
-                    <Row>
-                        <Col>
-                            <Form>
-                                <FormGroup>
-                                    <Label>Ange symboler (separerade med komma, semikolon eller radbrytning)</Label>
-                                    <Input id='symbol' type="text" value={this.state.symbol} placeholder="HM-B.ST" onKeyPress={this.onKeyPress} onChange={this.onChange}/>
-                                </FormGroup>
-                            </Form>
-                        </Col>
-                    </Row>
-                    <ButtonRow style={{textAlign:'right'}}>
-                        <Button disabled={this.state.symbol.length == 0 || this.state.busy} color='primary' onClick={this.onOK}>Sök</Button>
-                    </ButtonRow>
+                    <Form>
+                        <FormGroup>
+                            <Input id='symbol' type="text" value={this.state.symbol} placeholder="Sök efter symboler" onKeyPress={this.onKeyPress} onChange={this.onChange}/>
+                        </FormGroup>
+                        <FormGroup>
+                            <ButtonRow style={{textAlign:'right'}}>
+                                <Button disabled={this.state.symbol.length == 0 || this.state.loading} color='primary' onClick={this.onOK} >
+                                    <Glyph icon='search-solid'>
+                                    </Glyph>
+                                    Sök
+                                </Button>
+                            </ButtonRow>
+                        </FormGroup>
+                    </Form>
+
                     <br/>
+
+
+
                     {this.renderList()}
                     {this.renderLoader()}
                 </Container>
