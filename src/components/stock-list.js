@@ -232,7 +232,8 @@ Module.defaultProps = {
         {name: 'symbol',  title: 'Symbol'},
         {name: 'name',  title: 'Namn'},
         {name: 'industry',  title: 'Industri'},
-        {name: 'sector',  title: 'Sektor'}
+        {name: 'sector',  title: 'Sektor'},
+        {name: 'exchange',  title: 'Börs'}
     ],
     menu: [
         {icon:'cancel-circled'},

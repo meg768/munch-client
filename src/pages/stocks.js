@@ -149,6 +149,7 @@ export default class Module extends React.Component {
             {text: 'Ändra', onClick:this.onChangeStock}
         ];
 
+
         if (this.state.stocks) {
             if (this.state.stocks.length == 0) {
                 return (
@@ -158,7 +159,11 @@ export default class Module extends React.Component {
                 );
 
             };
-            return <StockList stocks={this.state.stocks} popupMenu={popupMenu}/>
+            return (
+                <StockList stocks={this.state.stocks} popupMenu={popupMenu}>
+                </StockList>
+            );
+
         }
 
 
