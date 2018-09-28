@@ -301,27 +301,31 @@ export default class Module extends React.Component {
         return (
             <Page>
                 <Container>
-                    <Form>
-                        <FormGroup>
-                                <Input id='search' type="text" disabled={this.state.loading} value={this.state.search} placeholder="Sök efter aktie" onKeyPress={this.onKeyPress} onChange={this.onChange}/>
-                        </FormGroup>
-                        <FormGroup>
-                            <ButtonRow style={{textAlign:'right'}}>
+                <Form>
+                    <Row>
+                        <Col xs={9} sm={10} md={10} lg={11}>
+                            <FormGroup>
+                                    <Input id='search' type="text" disabled={this.state.loading} value={this.state.search} placeholder="Sök efter aktie" onKeyPress={this.onKeyPress} onChange={this.onChange}/>
+                            </FormGroup>
+                        </Col>
+                        <Col xs={3} sm={2} md={2} lg={1}>
+                            <FormGroup style={{textAlign:'right'}}>
                                 <Button disabled={this.state.loading || this.state.search.length == 0} color='primary' onClick={this.onSearch}>
                                     <Glyph icon='search-solid'>
                                     </Glyph>
-                                    Sök
                                 </Button>
-                            </ButtonRow>
-                        </FormGroup>
-                    </Form>
-                    <div>
-                        {this.renderHitCount()}
-                        {this.renderList()}
-                        {this.renderButtons()}
-                        {this.renderMessage()}
-                        {this.renderLoader()}
-                    </div>
+                            </FormGroup>
+                        </Col>
+
+                    </Row>
+                </Form>
+                <div>
+                    {this.renderHitCount()}
+                    {this.renderList()}
+                    {this.renderButtons()}
+                    {this.renderMessage()}
+                    {this.renderLoader()}
+                </div>
                 </Container>
             </Page>
         );

@@ -1,9 +1,9 @@
-body {
+xbody {
   margin: 0px;
   padding: 0px;
   font-family: sans-serif;
   user-select: none;
-  
+
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;

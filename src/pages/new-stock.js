@@ -7,7 +7,7 @@ import yahoo from 'yahoo-finance';
 import {isFunction} from 'yow/is';
 import {isArray, isString} from 'yow/is';
 
-import { Badge, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Badge, Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 import { Container, Row, Col } from 'reactstrap';
 import { Table } from 'reactstrap';
 import Loader from 'react-spinners/PulseLoader';
@@ -51,7 +51,7 @@ class StockList extends React.Component {
     }
 
     renderHeader() {
-        var titles = ['Symbol', 'Name', 'Industry', 'Sector', 'Exchange', ''];
+        var titles = ['Symbol', 'Name', 'Industry', 'Sector', 'Exchange', 'Type', ''];
 
         var th = titles.map((title, index) => {
             return (
@@ -88,7 +88,7 @@ class StockList extends React.Component {
     }
 
     renderRow(stock) {
-        var columns = ['symbol', 'name', 'industry', 'sector', 'exchange'];
+        var columns = ['symbol', 'name', 'industry', 'sector', 'exchange', 'type'];
 
         var th = columns.map((column, index) => {
             return (
@@ -155,6 +155,7 @@ export default class Example extends React.Component {
         this.state.symbol = '';
         this.state.stocks = [];
         this.state.loading = false;
+        this.state.alert = null;
 
 
         this.state.loading = false;
@@ -171,6 +172,7 @@ export default class Example extends React.Component {
 
     onChange(event) {
         var state = {};
+        state.alert = null;
         state[event.target.id] = event.target.value.toUpperCase();
         this.setState(state);
     }
@@ -184,7 +186,7 @@ export default class Example extends React.Component {
         return new Promise((resolve, reject) => {
             var time = new Date();
 
-            this.setState({loading:true});
+            this.setState({alert:null, loading:true});
 
             promise.then((result) => {
                 var now = new Date();
@@ -368,6 +370,9 @@ export default class Example extends React.Component {
 
         this.run(this.getStocks(this.state.symbol)).then((stocks) => {
 
+            if (stocks.length == 0)
+                this.setState({alert:{color:'primary', message:sprintf('Hittade inga symboler som matchade "%s"', this.state.symbol)}});
+
             this.addStocks(stocks);
         })
         .catch((error) => {
@@ -376,7 +381,6 @@ export default class Example extends React.Component {
     }
 
     onCancel(event) {
-        alert('Cancel');
     }
 
     onSaveStocks() {
@@ -428,33 +432,55 @@ export default class Example extends React.Component {
         }
     }
 
+    renderAlert() {
+
+        if (this.state.alert) {
+            var style = {};
+
+            style.marginTop = '1em';
+            style.marginBottom = '1em';
+            style.fontSize = '125%';
+            style.opacity = '0.8';
+
+            return (
+                    <div style={style}>
+                        <Alert color={this.state.alert.color}>
+                            {this.state.alert.message}
+                        </Alert>
+                    </div>
+            );
+
+        }
+    }
+
     render() {
-        var columnStyle = {marginTop:'0.5em', marginBottom:'0.5em'};
 
         return (
             <Page>
                 <Container>
                     <Form>
-                        <FormGroup>
-                            <Input id='symbol' type="text" value={this.state.symbol} placeholder="Sök efter symboler" onKeyPress={this.onKeyPress} onChange={this.onChange}/>
-                        </FormGroup>
-                        <FormGroup>
-                            <ButtonRow style={{textAlign:'right'}}>
-                                <Button disabled={this.state.symbol.length == 0 || this.state.loading} color='primary' onClick={this.onOK} >
-                                    <Glyph icon='search-solid'>
-                                    </Glyph>
-                                    Sök
-                                </Button>
-                            </ButtonRow>
-                        </FormGroup>
+                        <Row>
+                            <Col xs={9} sm={10} md={10} lg={11}>
+                                <FormGroup >
+                                    <Input  id="symbol" type="text" value={this.state.symbol} placeholder="AAPL, TSLA, T, KO" onKeyPress={this.onKeyPress} onChange={this.onChange}/>
+                                </FormGroup>
+                            </Col>
+                            <Col xs={3} sm={2} md={2} lg={1}>
+                                <FormGroup style={{textAlign:'right'}}>
+                                    <Button disabled={this.state.symbol.length == 0 || this.state.loading} color='primary' onClick={this.onOK} >
+                                        <Glyph icon='search-solid'/>
+                                    </Button>
+                                </FormGroup>
+                            </Col>
+
+                        </Row>
                     </Form>
 
-                    <br/>
-
-
-
-                    {this.renderList()}
-                    {this.renderLoader()}
+                    <div>
+                        {this.renderList()}
+                        {this.renderAlert()}
+                        {this.renderLoader()}
+                    </div>
                 </Container>
             </Page>
         );

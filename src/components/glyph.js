@@ -9,10 +9,6 @@ export default class Icon extends React.Component {
 
         style = style || {};
 
-//        if (!style.fontSize)
-//            style.fontSize = '150%';
-
-///        style.verticalAlign = 'middle';
 
         return (
             <i className={'icon-'+icon} {...props} style={style} />

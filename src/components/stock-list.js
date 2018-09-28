@@ -233,7 +233,8 @@ Module.defaultProps = {
         {name: 'name',  title: 'Namn'},
         {name: 'industry',  title: 'Industri'},
         {name: 'sector',  title: 'Sektor'},
-        {name: 'exchange',  title: 'Börs'}
+        {name: 'exchange',  title: 'Börs'},
+        {name: 'type',  title: 'Typ'}
     ],
     menu: [
         {icon:'cancel-circled'},
