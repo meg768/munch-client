@@ -50,7 +50,7 @@ export default class Module extends PersistentComponent {
         state.stocks = null;
         state.hits = 0;
         state.search = '';
-        state.message = '';
+        state.alert = null;
         state.loading = false;
 
         return state;
@@ -151,7 +151,7 @@ export default class Module extends PersistentComponent {
     }
 
     onChange(event) {
-        var state = {};
+        var state = {alert:null};
         state[event.target.id] = event.target.value.toUpperCase();
         this.setState(state);
     }
@@ -171,14 +171,19 @@ export default class Module extends PersistentComponent {
 
     onSearch() {
 
-        this.setState({stocks:null, hits:0, message:''});
+        this.setState({stocks:[], hits:0, alert:null});
 
-        this.run(this.search(this.state.search)).then(result => {
-            this.setState({hits:result.hits, stocks:result.stocks});
+        this.run(this.search(this.state.search.trim())).then(result => {
+
+            if (result.hits == 0)
+                this.setState({alert:{color:'primary', message:'Hittade ingenting'}});
+            else
+                this.setState({hits:result.hits, stocks:result.stocks});
+
             this.saveState();
         })
         .catch(error => {
-            this.setState({message:error.message});
+            this.setState({alert: {color:'primary', message:error.message}});
         })
 
 
@@ -186,13 +191,6 @@ export default class Module extends PersistentComponent {
 
 
     onKeyPress(event) {
-        console.log(event);
-        console.log(event.target.charCode);
-        console.log(event.key);
-
-        if (event.key == 'Enter') {
-            this.onSearch();
-        }
     }
 
     onRemoveStock(stock) {
@@ -211,7 +209,7 @@ export default class Module extends PersistentComponent {
             this.setState({message:'OK'});
         })
         .catch(error => {
-            this.setState({message:error.message});
+            this.setState({alert: {color:'primary', message:error.message}});
         })
     }
 
@@ -223,19 +221,7 @@ export default class Module extends PersistentComponent {
     renderList() {
 
 
-        if (this.state.stocks) {
-            if (this.state.stocks.length == 0) {
-                return (
-                    <Alert color="light">
-                        <strong>
-                        {'Hittade ingenting.'}
-                        </strong>
-                    </Alert>
-                );
-
-            };
-
-
+        if (this.state.stocks && this.state.stocks.length > 0) {
             return (
                 <StockList.Table stocks={this.state.stocks}>
                     <StockList.Value name='symbol'>Symbol</StockList.Value>
@@ -259,16 +245,25 @@ export default class Module extends PersistentComponent {
     }
 
 
-    renderMessage() {
+    renderAlert() {
 
-        if (!this.state.loading && isString(this.state.message) && this.state.message.length > 0) {
+        if (this.state.alert) {
+            var style = {};
+
+            style.marginTop = '1em';
+            style.marginBottom = '1em';
+            style.fontSize = '125%';
+            style.opacity = '0.8';
+
             return (
-                <Alert color="info">
-                    {this.state.message}
-                </Alert>
+                    <div style={style}>
+                        <Alert color={this.state.alert.color}>
+                            {this.state.alert.message}
+                        </Alert>
+                    </div>
             );
-        }
 
+        }
     }
 
     renderHitCount() {
@@ -351,7 +346,7 @@ export default class Module extends PersistentComponent {
                     {this.renderHitCount()}
                     {this.renderList()}
                     {this.renderButtons()}
-                    {this.renderMessage()}
+                    {this.renderAlert()}
                     {this.renderLoader()}
                 </div>
                 </Container>

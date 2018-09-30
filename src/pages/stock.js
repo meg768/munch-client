@@ -37,7 +37,7 @@ export default class Module extends React.Component {
     }
 
     getPersistentKey() {
-        return this.props.location.pathname;
+        //return this.props.location.pathname;
     }
 
     getDefaultState() {
@@ -124,7 +124,7 @@ export default class Module extends React.Component {
             this.setState({stock:stocks[0], loading:false});
         })
         .catch(error => {
-            this.setState({loading:false, alert:{color:'info', message:error.message}});
+            this.setState({loading:false, alert:{color:'light', message:error.message}});
         })
 
     }
@@ -132,8 +132,12 @@ export default class Module extends React.Component {
     renderAlert() {
 
         if (this.state.alert) {
+            var style = {};
+            style.fontSize = '150%';
+            style.textAlign = 'center';
+            
             return (
-                <Alert color={this.state.alert.color}>
+                <Alert color={this.state.alert.color} style={style}>
                     {this.state.alert.message}
                 </Alert>
             );
@@ -161,7 +165,7 @@ export default class Module extends React.Component {
     }
 
     renderButtons() {
-        if (!this.state.loading) {
+        if (!this.state.loading && !this.state.alert) {
             return(
                 <ButtonRow style={{textAlign:'right'}}>
                     <Button color='primary' onClick={this.onOK}>
