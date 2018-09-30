@@ -11,6 +11,8 @@ export default class Icon extends React.Component {
             style = Object.assign({}, {fontSize:size}, style)
         }
 
+
+
         return (
             <i className={'icon-'+icon} {...props} style={style} />
         );

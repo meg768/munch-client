@@ -1,8 +1,7 @@
 import React from 'react';
-import { ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap';
-import { Form, FormGroup, Label, Input, InputGroup, InputGroupAddon } from 'reactstrap';
+import { Form, FormGroup, Input} from 'reactstrap';
 import { Container, Row, Col } from 'reactstrap';
-import { Alert, Button, ButtonGroup } from 'reactstrap';
+import { Alert, Button } from 'reactstrap';
 import Page from '../components/page.js';
 import StockList from '../components/stock-list.js';
 import Glyph from '../components/glyph.js';
@@ -10,6 +9,7 @@ import Loader from 'react-spinners/PulseLoader';
 import sprintf from 'yow/sprintf';
 import {isString} from 'yow/is';
 import ButtonRow from '../components/button-row.js';
+
 
 import Timer from 'yow/timer';
 
@@ -182,6 +182,9 @@ export default class Module extends React.Component {
     }
 
     onRemoveStock(stock) {
+        console.log('onRemoveStock', arguments);
+        return;
+
         var query = {};
         query.sql = 'DELETE FROM stocks WHERE symbol = ?';
         query.values = [stock.symbol];
@@ -199,15 +202,11 @@ export default class Module extends React.Component {
     }
 
     onChangeStock(stock) {
-        alert(stock.symbol);
+        console.log('onChangeStock', arguments);
     }
 
-    renderList() {
 
-        var popupMenu = [
-            {text: 'Ta bort', onClick:this.onRemoveStock},
-            {text: 'Ändra', onClick:this.onChangeStock}
-        ];
+    renderList() {
 
 
         if (this.state.stocks) {
@@ -221,15 +220,28 @@ export default class Module extends React.Component {
                 );
 
             };
+
+
             return (
-                <StockList stocks={this.state.stocks} popupMenu={popupMenu}>
-                </StockList>
+                <StockList.Table stocks={this.state.stocks}>
+                    <StockList.Value name='symbol'>Symbol</StockList.Value>
+                    <StockList.Value name='name'>Namn</StockList.Value>
+                    <StockList.Value name='industry'>Industri</StockList.Value>
+                    <StockList.Value name='sector'>Sektor</StockList.Value>
+                    <StockList.Value name='exchange'>Börs</StockList.Value>
+                    <StockList.Value name='type'>Typ</StockList.Value>
+                    <StockList.DropdownMenu>
+                        <StockList.DropdownItem icon='cancel-circled' onClick={this.onRemoveStock}>Tag bort</StockList.DropdownItem>
+                        <StockList.DropdownItem icon='cancel' onClick={this.onChangeStock}>Ändra</StockList.DropdownItem>
+                    </StockList.DropdownMenu>
+                </StockList.Table>
             );
 
         }
 
 
     }
+
 
     renderMessage() {
 

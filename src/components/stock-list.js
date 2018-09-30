@@ -1,63 +1,49 @@
 import React from 'react';
-import { Button } from 'reactstrap';
-import { ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap';
-import { Popover, PopoverHeader, PopoverBody } from 'reactstrap';
-import { DropdownMenu, DropdownItem } from 'reactstrap';
 
-import {Table} from 'reactstrap';
-import {isArray, isFunction} from 'yow/is';
+import { Table, Popover } from 'reactstrap';
+
 import sprintf from 'yow/sprintf';
-import Icon from './icon.js';
 import Glyph from './glyph.js';
 
 function debug() {
     console.log.apply(null, arguments);
 }
 
-function onClick(icon, symbol) {
-    alert(sprintf('icon %s - symbol - %s', icon, symbol));
 
-}
+var StockList = {};
 
+StockList.Glyph = class extends React.Component {
 
-class PopupIconMenuItem extends React.Component {
 
     constructor(args) {
         super(args);
+
+        this.state = {};
+        this.onClick = this.onClick.bind(this);
+
     }
 
-
-        render() {
-            var {icon, style, ...props} = this.props;
-
-            return (
-                <i className={'icon-'+icon} {...props} style={style} />
-            );
-
-        }
+    onClick() {
+        this.props.onClick(this.props.stock);
+    }
 
     render() {
-        var {style, onClick, ...props} = this.props;
-
-        style = style || {};
-
-        style.paddingTop = '0.5em';
-        style.paddingBottom = '0.5em';
-
-        console.log(onClick);
+        var {icon, onClick, ...other} = this.props;
 
         return (
-            <ListGroupItem action onClick={onClick} style={style} {...props}>
-                {this.props.children}
-            </ListGroupItem>
+            <td {...other} onClick={this.onClick} style={{opacity:'0.5'}}>
+                <Glyph icon={icon} style={{fontSize:'120%', cursor:'pointer'}} />
+            </td>
         );
     }
+}
 
 
-};
 
 
-class PopupIconMenu extends React.Component {
+
+
+StockList.DropdownMenu = class extends React.Component {
 
     static defaultProps = {
         icon: 'menu'
@@ -71,34 +57,43 @@ class PopupIconMenu extends React.Component {
         this.toggle = this.toggle.bind(this);
     }
 
+    dismiss() {
+        this.setState({isOpen: false});
+    }
+
     toggle() {
         this.setState({isOpen: !this.state.isOpen});
     }
 
 
     render() {
-        var id = 'PIM-' + this.props.id;
+        var id = 'PIM-' + this.props.row;
 
-        var spanStyle = {};
-        var iconStyle = {};
-        var popoverStyle = {};
         var listGroupStyle = {};
-
-        iconStyle.opacity = '0.5';
         listGroupStyle.cursor = 'pointer';
         listGroupStyle.fontSize = '125%';
+
+        var iconStyle = {};
+        iconStyle.fontSize = '120%';
+        iconStyle.cursor = 'pointer';
+        iconStyle.opacity = '0.5';
+
+        var items = React.Children.map(this.props.children, (child, index) => {
+            console.log(this);
+            return React.cloneElement(child, {key:index, stock:this.props.stock, parent:this});
+        });
 
 
 
         return (
-            <span style={spanStyle}>
-                <Glyph icon={this.props.icon} id={id} onClick={this.toggle} style={iconStyle}/>
-                <Popover hideArrow={true} placement='bottom' isOpen={this.state.isOpen} target={id} toggle={this.toggle} style={popoverStyle}>
-                    <ListGroup flush={false} style={listGroupStyle}>
-                        {this.props.children}
-                    </ListGroup>
+            <td>
+                <Glyph icon={this.props.icon} id={id} style={iconStyle}  onClick={this.toggle} />
+                <Popover hideArrow={true} placement='auto' isOpen={this.state.isOpen} target={id}  toggle={this.toggle}>
+                    <div class="dropdown-menu" style={{display:'block'}}>
+                        {items}
+                    </div>
                 </Popover>
-            </span>
+            </td>
         );
     }
 
@@ -106,7 +101,101 @@ class PopupIconMenu extends React.Component {
 };
 
 
-export default class Module extends React.Component {
+StockList.DropdownDevider = class extends React.Component {
+
+
+
+    render() {
+        return (
+            <div class="dropdown-divider"></div>
+
+        );
+    }
+
+
+};
+
+
+StockList.DropdownItem = class extends React.Component {
+
+    constructor(args) {
+        super(args);
+
+        console.log(this.props);
+        this.onClick = this.onClick.bind(this);
+
+    }
+
+    onClick() {
+        this.props.parent.dismiss();
+        this.props.onClick(this.props.stock);
+    }
+
+    renderIcon() {
+        if (this.props.icon) {
+            return (
+                <Glyph icon={this.props.icon} style={{fontSize:'125%', opacity:'0.5'}}/>
+            );
+        }
+    }
+
+    renderText() {
+        if (this.props.text) {
+            return this.props.text;
+        }
+    }
+
+    render() {
+        var {onClick, style, ...props} = this.props;
+
+        style = style || {};
+
+        style.cursor = 'pointer';
+
+        return (
+            <a className='dropdown-item' onClick={this.onClick} style={style} {...props}>
+
+                {this.renderIcon()}
+                {this.renderText()}
+                {this.props.children}
+            </a>
+        );
+    }
+
+
+};
+
+
+
+
+StockList.Value = class extends React.Component {
+
+    constructor(args) {
+        super(args);
+
+        this.state = {};
+        this.onClick = this.onClick.bind(this);
+
+    }
+
+    onClick() {
+        this.props.onClick(this.props.stock);
+    }
+
+    render() {
+        var {onClick, ...other} = this.props;
+
+        return (
+            <th {...other} onClick={this.onClick}>
+                {this.props.children}
+            </th>
+        );
+    }
+
+}
+
+
+StockList.Table = class extends React.Component {
 
 
     constructor(args) {
@@ -116,80 +205,65 @@ export default class Module extends React.Component {
 
     }
 
+    componentDidMount() {
+    }
 
-    onClick(icon, symbol) {
-        alert(sprintf('icon %s - symbol - %s', icon, symbol));
+
+
+    renderRow(stock, rowNumber) {
+
+        return React.Children.map(this.props.children, (child, index) => {
+
+            if (child.type === StockList.Value) {
+                return (
+                    <td key={index}>
+                        {stock[child.props.name]}
+                    </td>
+                );
+            }
+
+            if (child.type === StockList.Glyph) {
+                return React.cloneElement(child, {key:index, stock:stock});
+            }
+
+
+            if (child.type === StockList.DropdownMenu) {
+                return React.cloneElement(child, {key:index, row:rowNumber, stock:stock});
+            }
+
+        });
 
     }
 
+
     renderHeader() {
-        var titles = this.props.columns.map((column, index) => {
-            return column.title;
-        });
 
-        if (this.props.icons.length > 0)
-            titles.push('');
+        var titles = React.Children.map(this.props.children, (child, index) => {
+            if (child.type === StockList.Value)
+                return React.cloneElement(child, {key:index});
 
+            if (child.type === StockList.Glyph) {
+                return (
+                    <th key={index}>{' '}</th>
+                );
+            }
 
-        var th = titles.map((title, index) => {
-            return (
-                <th key={index}>{title}</th>
-            );
+            if (child.type === StockList.DropdownMenu) {
+                return (
+                    <th key={index}>{' '}</th>
+                );
+            }
+
         });
 
         return (
             <thead>
                 <tr>
-                    {th}
+                    {titles}
                 </tr>
             </thead>
         );
     }
-
-
-    renderRow(stock, rowNumber) {
-        var columns = this.props.columns.map((column, index) => {
-            return column.name;
-        });
-
-
-        var th = columns.map((column, index) => {
-            return (
-                <td key={index}>
-                    {stock[column]}
-                </td>
-            );
-        });
-
-        if (this.props.popupMenu) {
-            var menuItems = this.props.popupMenu.map((menuItem, index) => {
-                return (
-                    <PopupIconMenuItem key={index}>
-                        <span onClick={menuItem.onClick.bind(this, stock)}>
-                            {menuItem.text}
-                        </span>
-                    </PopupIconMenuItem>
-
-                );
-            });
-
-            if (menuItems.length > 0) {
-                th.push(
-                    <td key={9999}>
-                        <PopupIconMenu id={rowNumber}>
-                            {menuItems}
-                        </PopupIconMenu>
-                    </td>
-                );
-
-            };
-
-        }
-
-
-        return th;
-    }
-
 
     renderBody() {
 
@@ -226,24 +300,4 @@ export default class Module extends React.Component {
     }
 }
 
-
-Module.defaultProps = {
-    columns: [
-        {name: 'symbol',  title: 'Symbol'},
-        {name: 'name',  title: 'Namn'},
-        {name: 'industry',  title: 'Industri'},
-        {name: 'sector',  title: 'Sektor'},
-        {name: 'exchange',  title: 'Börs'},
-        {name: 'type',  title: 'Typ'}
-    ],
-    menu: [
-        {icon:'cancel-circled'},
-        {icon:'ok-circled'},
-        {icon:'menu'},
-    ],
-    icons: [
-        {icon:'cancel-circled'},
-        {icon:'ok-circled'},
-        {icon:'menu'},
-    ]
-};
+export default StockList;

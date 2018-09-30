@@ -16,7 +16,7 @@ import Icon from '../components/icon.js';
 import Glyph from '../components/glyph.js';
 
 import ButtonRow from '../components/button-row.js';
-//import ButtonRow from '../components/button-row.js';
+import StockList from '../components/stock-list.js';
 
 
 
@@ -28,124 +28,6 @@ function debug() {
 
 
 
-class StockList extends React.Component {
-
-
-    constructor(args) {
-        super(args);
-
-        this.state = {};
-
-        this.onSave = this.onSave.bind(this);
-        this.onRowClick = this.onRowClick.bind(this);
-    }
-
-    onRowClick(symbol) {
-        if (isFunction(this.props.onRemoveStock))
-            this.props.onRemoveStock(symbol);
-
-    }
-    onSave() {
-        if (isFunction(this.props.onSaveStocks))
-            this.props.onSaveStocks();
-    }
-
-    renderHeader() {
-        var titles = ['Symbol', 'Name', 'Industry', 'Sector', 'Exchange', 'Type', ''];
-
-        var th = titles.map((title, index) => {
-            return (
-                <th key={index}>{title}</th>
-            );
-        });
-
-        return (
-            <thead>
-                <tr>
-                    {th}
-                </tr>
-            </thead>
-        );
-    }
-
-    renderLoader() {
-
-        if (this.state.loading) {
-            var style = {};
-
-            style.textAlign = 'center';
-            style.textAlign = 'center';
-            style.display = 'flex';
-            style.justifyContent = 'center';
-
-            return (
-                    <div style={style}>
-                        <Loader loading={true} color={'lightblue'}/>
-                    </div>
-            );
-
-        }
-    }
-
-    renderRow(stock) {
-        var columns = ['symbol', 'name', 'industry', 'sector', 'exchange', 'type'];
-
-        var th = columns.map((column, index) => {
-            return (
-                <td key={index}>{stock[column]}</td>
-            );
-        });
-
-
-        th.push(
-            <td key={9999}>
-                <Icon icon='cancel-circled' size='120%' style={{cursor:'pointer', opacity:'0.5'}} onClick={this.onRowClick.bind(this, stock.symbol)}/>
-            </td>
-        );
-
-
-        return th;
-    }
-
-
-    renderBody() {
-
-        var stocks = this.props.stocks.slice();
-
-        var rows = stocks.map((stock, index) => {
-            return (
-                <tr key={index}>{this.renderRow(stock)}</tr>
-            );
-        });
-
-        return (
-            <tbody>
-                {rows}
-            </tbody>
-        );
-
-    }
-
-    render() {
-
-        if (this.props.stocks.length == 0)
-            return (<div/>);
-
-
-        return(
-            <div>
-                <Table responsive size='sm'>
-                    {this.renderHeader()}
-                    {this.renderBody()}
-                </Table>
-                <ButtonRow style={{textAlign:'right'}}>
-                    <Button color='primary' disabled={this.props.stocks.length == 0} onClick={this.onSave}>Spara</Button>
-                </ButtonRow>
-            </div>
-        );
-
-    }
-}
 export default class Example extends React.Component {
 
     constructor(args) {
@@ -394,10 +276,10 @@ export default class Example extends React.Component {
 
     }
 
-    onRemoveStock(symbol) {
+    onRemoveStock(stock) {
 
-        var stocks = this.state.stocks.filter((stock) => {
-            return stock.symbol != symbol;
+        var stocks = this.state.stocks.filter((item) => {
+            return stock.symbol != item.symbol;
         });
 
         this.setState({stocks:stocks});
@@ -405,11 +287,26 @@ export default class Example extends React.Component {
 
     renderList() {
 
-        if (this.state.stocks) {
-            return (
-                <StockList onRemoveStock={this.onRemoveStock} onSaveStocks={this.onSaveStocks} stocks={this.state.stocks}/>
+        if (this.state.stocks && this.state.stocks.length > 0) {
 
+            return (
+                <div>
+                    <StockList.Table stocks={this.state.stocks}>
+                        <StockList.Value name='symbol'>Symbol</StockList.Value>
+                        <StockList.Value name='name'>Namn</StockList.Value>
+                        <StockList.Value name='industry'>Industri</StockList.Value>
+                        <StockList.Value name='sector'>Sektor</StockList.Value>
+                        <StockList.Value name='exchange'>Börs</StockList.Value>
+                        <StockList.Value name='type'>Typ</StockList.Value>
+                        <StockList.Glyph icon='cancel-circled' style={{textAlign:'right'}} onClick={this.onRemoveStock}/>
+                    </StockList.Table>
+                    <ButtonRow style={{textAlign:'right'}}>
+                        <Button color='primary' disabled={this.state.stocks.length == 0} onClick={this.onSaveStocks}>Spara</Button>
+                    </ButtonRow>
+                </div>
             );
+
+
         }
     }
 

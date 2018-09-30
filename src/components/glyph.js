@@ -2,16 +2,19 @@ import React from 'react';
 
 
 
-export default class Icon extends React.Component {
+export default class Glyph extends React.Component {
 
     render() {
-        var {icon, style, fontSize, ...props} = this.props;
+        var {name, glyph, icon, ...props} = this.props;
 
-        style = style || {};
+        if (icon && !name)
+            name = icon;
 
+        if (glyph && !name)
+            name = glyph;
 
         return (
-            <i className={'icon-'+icon} {...props} style={style} />
+            <i className={'icon-'+name} {...this.props}/>
         );
 
     }
