@@ -18,6 +18,7 @@ import Glyph from '../components/glyph.js';
 import ButtonRow from '../components/button-row.js';
 import StockList from '../components/stock-list.js';
 
+import PersistentComponent from '../components/persistent-component.js';
 
 
 
@@ -28,19 +29,14 @@ function debug() {
 
 
 
-export default class Example extends React.Component {
+export default class Example extends PersistentComponent {
+
+
 
     constructor(args) {
         super(args);
 
-        this.state = {};
-        this.state.symbol = '';
-        this.state.stocks = [];
-        this.state.loading = false;
-        this.state.alert = null;
 
-
-        this.state.loading = false;
         this.onChange = this.onChange.bind(this);
         this.onOK = this.onOK.bind(this);
         this.onCancel = this.onCancel.bind(this);
@@ -51,6 +47,20 @@ export default class Example extends React.Component {
 
     }
 
+    getPersistentKey() {
+        return this.props.location.pathname;
+    }
+
+    getDefaultState() {
+        var state = {};
+        state = {};
+        state.symbol = '';
+        state.stocks = [];
+        state.loading = false;
+        state.alert = null;
+
+        return state;
+    }
 
     onChange(event) {
         var state = {};
@@ -91,50 +101,11 @@ export default class Example extends React.Component {
     saveStock(stock) {
         return new Promise((resolve, reject) => {
             var request = new Request('http://app-o.se:3012', {debug:debug});
-            var query = {};
 
-            var names = [];
-    		var values = [];
-
-    		Object.keys(stock).forEach(function(name) {
-    			names.push(name);
-    			values.push(stock[name]);
-    		});
-
-            var query = {};
-            query.sql        = '';
-            query.values     = [];
-
-            query.sql += 'INSERT INTO stocks ';
-
-            query.sql += '(' + names.map((name, index) => {
-                query.values.push(name);
-                return '??';
-            }).join(',') + ') ';
-
-            query.sql += ('VALUES ');
-
-            query.sql += '(' + values.map((value, index) => {
-                query.values.push(value);
-                return '?';
-            }).join(',') + ') ';
-
-            query.sql += 'ON DUPLICATE KEY UPDATE ';
-
-            query.sql += names.map((name) => {
-                query.values.push(name);
-                query.values.push(name);
-
-    			return '?? = VALUES(??)';
-    		}).join(',') + ' ';
-
-
-
-            request.get('/query', {query:query}).then(response => {
+            request.post('/stock', {query:stock}).then(response => {
                 resolve();
             })
             .catch(error => {
-                console.log(error);
                 reject(error);
             })
 
@@ -159,6 +130,7 @@ export default class Example extends React.Component {
             });
 
             promise.catch(error => {
+                console.error(error);
                 reject(error)
             });
 
@@ -244,7 +216,7 @@ export default class Example extends React.Component {
              return a.symbol.localeCompare(b.symbol);
         });
 
-        this.setState({stocks:newStocks, symbol:''});
+        this.setState({stocks:newStocks, symbol:''  });
     }
 
 
@@ -256,6 +228,7 @@ export default class Example extends React.Component {
                 this.setState({alert:{color:'primary', message:sprintf('Hittade inga symboler som matchade "%s"', this.state.symbol)}});
 
             this.addStocks(stocks);
+            this.saveState();
         })
         .catch((error) => {
             console.error(error);
@@ -269,6 +242,7 @@ export default class Example extends React.Component {
 
         this.run(this.saveStocks(this.state.stocks)).then(() => {
             this.setState({stocks:[]});
+            this.saveState();
         })
         .catch((error) => {
             console.error(error);

@@ -10,9 +10,9 @@ function debug() {
 }
 
 
-var StockList = {};
+var Module = {};
 
-StockList.Glyph = class extends React.Component {
+Module.Glyph = class extends React.Component {
 
 
     constructor(args) {
@@ -43,7 +43,7 @@ StockList.Glyph = class extends React.Component {
 
 
 
-StockList.DropdownMenu = class extends React.Component {
+Module.DropdownMenu = class extends React.Component {
 
     static defaultProps = {
         icon: 'menu'
@@ -79,7 +79,6 @@ StockList.DropdownMenu = class extends React.Component {
         iconStyle.opacity = '0.5';
 
         var items = React.Children.map(this.props.children, (child, index) => {
-            console.log(this);
             return React.cloneElement(child, {key:index, stock:this.props.stock, parent:this});
         });
 
@@ -89,7 +88,7 @@ StockList.DropdownMenu = class extends React.Component {
             <td>
                 <Glyph icon={this.props.icon} id={id} style={iconStyle}  onClick={this.toggle} />
                 <Popover hideArrow={true} placement='auto' isOpen={this.state.isOpen} target={id}  toggle={this.toggle}>
-                    <div class="dropdown-menu" style={{display:'block'}}>
+                    <div className="dropdown-menu" style={{display:'block'}}>
                         {items}
                     </div>
                 </Popover>
@@ -101,13 +100,13 @@ StockList.DropdownMenu = class extends React.Component {
 };
 
 
-StockList.DropdownDevider = class extends React.Component {
+Module.DropdownDevider = class extends React.Component {
 
 
 
     render() {
         return (
-            <div class="dropdown-divider"></div>
+            <div className="dropdown-divider"></div>
 
         );
     }
@@ -116,7 +115,7 @@ StockList.DropdownDevider = class extends React.Component {
 };
 
 
-StockList.DropdownItem = class extends React.Component {
+Module.DropdownItem = class extends React.Component {
 
     constructor(args) {
         super(args);
@@ -128,7 +127,9 @@ StockList.DropdownItem = class extends React.Component {
 
     onClick() {
         this.props.parent.dismiss();
-        this.props.onClick(this.props.stock);
+
+        if (this.props.onClick)
+            this.props.onClick(this.props.stock);
     }
 
     renderIcon() {
@@ -168,7 +169,7 @@ StockList.DropdownItem = class extends React.Component {
 
 
 
-StockList.Value = class extends React.Component {
+Module.Value = class extends React.Component {
 
     constructor(args) {
         super(args);
@@ -195,7 +196,7 @@ StockList.Value = class extends React.Component {
 }
 
 
-StockList.Table = class extends React.Component {
+Module.Table = class extends React.Component {
 
 
     constructor(args) {
@@ -214,7 +215,7 @@ StockList.Table = class extends React.Component {
 
         return React.Children.map(this.props.children, (child, index) => {
 
-            if (child.type === StockList.Value) {
+            if (child.type === Module.Value) {
                 return (
                     <td key={index}>
                         {stock[child.props.name]}
@@ -222,12 +223,12 @@ StockList.Table = class extends React.Component {
                 );
             }
 
-            if (child.type === StockList.Glyph) {
+            if (child.type === Module.Glyph) {
                 return React.cloneElement(child, {key:index, stock:stock});
             }
 
 
-            if (child.type === StockList.DropdownMenu) {
+            if (child.type === Module.DropdownMenu) {
                 return React.cloneElement(child, {key:index, row:rowNumber, stock:stock});
             }
 
@@ -239,16 +240,16 @@ StockList.Table = class extends React.Component {
     renderHeader() {
 
         var titles = React.Children.map(this.props.children, (child, index) => {
-            if (child.type === StockList.Value)
+            if (child.type === Module.Value)
                 return React.cloneElement(child, {key:index});
 
-            if (child.type === StockList.Glyph) {
+            if (child.type === Module.Glyph) {
                 return (
                     <th key={index}>{' '}</th>
                 );
             }
 
-            if (child.type === StockList.DropdownMenu) {
+            if (child.type === Module.DropdownMenu) {
                 return (
                     <th key={index}>{' '}</th>
                 );
@@ -300,4 +301,4 @@ StockList.Table = class extends React.Component {
     }
 }
 
-export default StockList;
+export default Module;

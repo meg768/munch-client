@@ -9,7 +9,7 @@ import Loader from 'react-spinners/PulseLoader';
 import sprintf from 'yow/sprintf';
 import {isString} from 'yow/is';
 import ButtonRow from '../components/button-row.js';
-
+import PersistentComponent from '../components/persistent-component.js';
 
 import Timer from 'yow/timer';
 
@@ -22,20 +22,14 @@ function debug() {
 }
 
 
-export default class Module extends React.Component {
+export default class Module extends PersistentComponent {
+
 
 
     constructor(args) {
 
         super(args);
 
-
-        this.state = {};
-        this.state.stocks = null;
-        this.state.hits = 0;
-        this.state.search = '';
-        this.state.message = '';
-        this.state.loading = false;
         this.typeTimer = new Timer();
 
         this.onSearch = this.onSearch.bind(this);
@@ -44,6 +38,25 @@ export default class Module extends React.Component {
         this.onRemoveStock = this.onRemoveStock.bind(this);
         this.onChangeStock = this.onChangeStock.bind(this);
     }
+
+    getPersistentKey() {
+        return this.props.location.pathname;
+    }
+
+    getDefaultState() {
+        var state = {};
+
+        state.version = '1.1';
+        state.stocks = null;
+        state.hits = 0;
+        state.search = '';
+        state.message = '';
+        state.loading = false;
+
+        return state;
+    }
+
+
 
     run(promise) {
 
@@ -140,21 +153,21 @@ export default class Module extends React.Component {
     onChange(event) {
         var state = {};
         state[event.target.id] = event.target.value.toUpperCase();
-        console.log(state);
         this.setState(state);
-
-        // this.typeTimer.setTimer(1000, this.onSearch);
     }
 
     componentDidMount() {
 
-        this.run(this.search('AAPL')).then(result => {
-            this.setState({hits:result.hits, stocks:result.stocks});
-        })
-        .catch(error => {
-        })
+        if (this.state.stocks == null) {
+            this.run(this.search('AAPL')).then(result => {
+                this.setState({hits:result.hits, stocks:result.stocks});
+            })
+            .catch(error => {
+            })
 
+        }
     }
+
 
     onSearch() {
 
@@ -162,6 +175,7 @@ export default class Module extends React.Component {
 
         this.run(this.search(this.state.search)).then(result => {
             this.setState({hits:result.hits, stocks:result.stocks});
+            this.saveState();
         })
         .catch(error => {
             this.setState({message:error.message});
@@ -202,7 +216,7 @@ export default class Module extends React.Component {
     }
 
     onChangeStock(stock) {
-        console.log('onChangeStock', arguments);
+        this.props.history.push('/stock/' + stock.symbol);
     }
 
 
@@ -231,8 +245,10 @@ export default class Module extends React.Component {
                     <StockList.Value name='exchange'>Börs</StockList.Value>
                     <StockList.Value name='type'>Typ</StockList.Value>
                     <StockList.DropdownMenu>
-                        <StockList.DropdownItem icon='cancel-circled' onClick={this.onRemoveStock}>Tag bort</StockList.DropdownItem>
-                        <StockList.DropdownItem icon='cancel' onClick={this.onChangeStock}>Ändra</StockList.DropdownItem>
+                    <StockList.DropdownItem icon='chart-line'>Visa graf</StockList.DropdownItem>
+                        <StockList.DropdownItem icon='grin-squint-tears-regular' onClick={this.onChangeStock}>Redigera</StockList.DropdownItem>
+                        <StockList.DropdownDevider/>
+                        <StockList.DropdownItem icon='cancel' onClick={this.onRemoveStock}>Radera</StockList.DropdownItem>
                     </StockList.DropdownMenu>
                 </StockList.Table>
             );
