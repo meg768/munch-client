@@ -1,9 +1,6 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-
-
-
-export default class Page extends React.Component {
+export default class Page extends Component {
 
     render() {
         var style = {};

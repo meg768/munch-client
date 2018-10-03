@@ -1,16 +1,10 @@
 import React from 'react';
-import { ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap';
-import { Form, FormGroup, Label, Input, InputGroup, InputGroupAddon } from 'reactstrap';
-import { Container, Row, Col } from 'reactstrap';
-import { Alert, Button, ButtonGroup } from 'reactstrap';
-import Page from '../components/page.js';
+
 import StockList from '../components/stock-list.js';
-import Glyph from '../components/glyph.js';
-import Loader from 'react-spinners/PulseLoader';
-import PersistentComponent from '../components/persistent-component.js';
-import ButtonRow from '../components/button-row.js';
+import {Spinner, Container, Row, Col, Form, Alert, Input, Button, ButtonRow, Glyph, Page} from '../components/ui.js';
 
 import Request from 'yow/request';
+import {Storage} from '../components/storage.js';
 
 
 function debug() {
@@ -26,7 +20,8 @@ export default class Module extends React.Component {
         super(props);
 
 
-        this.state = this.getDefaultState();
+        this.storage = new Storage(this.props.location.pathname);
+        this.state = this.loadState();
 
         this.onStockChange = this.onStockChange.bind(this);
         this.onOK = this.onOK.bind(this);
@@ -36,18 +31,18 @@ export default class Module extends React.Component {
 
     }
 
-    getPersistentKey() {
+
+    saveState() {
+        this.storage.save({});
         //return this.props.location.pathname;
     }
 
-    getDefaultState() {
-        var state = {};
-
-        state.stock = null;
-        state.loading = false;
-        state.alert = null;
-
-        return state;
+    loadState() {
+        return this.storage.load({
+            stock: null,
+            loading: false,
+            alert: null
+        });
     }
 
     onOK(event) {
@@ -96,7 +91,7 @@ export default class Module extends React.Component {
         return new Promise((resolve, reject) => {
             var request = new Request('http://app-o.se:3012', {debug:debug});
 
-            request.get('/query', {query:query}).then(response => {
+            request.get('/mysql', {query:query}).then(response => {
                 return response.body;
             })
             .then((result) => {
@@ -135,7 +130,7 @@ export default class Module extends React.Component {
             var style = {};
             style.fontSize = '150%';
             style.textAlign = 'center';
-            
+
             return (
                 <Alert color={this.state.alert.color} style={style}>
                     {this.state.alert.message}
@@ -157,7 +152,7 @@ export default class Module extends React.Component {
 
             return (
                 <div style={style}>
-                    <Loader loading={true} color={'lightblue'}/>
+                    <Spinner/>
                 </div>
             );
 
@@ -184,35 +179,54 @@ export default class Module extends React.Component {
         if (this.state.stock) {
 
             return (
+                <div>
                 <Form>
-                    <FormGroup row>
-                        <Label style={{fontSize:'200%'}}>
+                    <Form.Group>
+                        <Form.Label style={{fontSize:'200%'}}>
                             {this.state.stock.symbol}
 
-                        </Label>
-                    </FormGroup>
+                        </Form.Label>
+                    </Form.Group>
 
-                    <FormGroup row>
-                        <Label for="name">Namn</Label>
-                        <Input id='name' type="text" disabled={this.state.loading} value={this.state.stock.name} placeholder="Namn" onChange={this.onStockChange}/>
-                    </FormGroup>
-                    <FormGroup row>
-                        <Label for="industry">Industri</Label>
-                        <Input id='industry' type="text" disabled={this.state.loading} value={this.state.stock.industry} placeholder="Industri" onChange={this.onStockChange}/>
-                    </FormGroup>
-                    <FormGroup row>
-                        <Label for="sector">Sektor</Label>
-                        <Input id='sector' type="text" disabled={this.state.loading} value={this.state.stock.sector} placeholder="Sektor" onChange={this.onStockChange}/>
-                    </FormGroup>
-                    <FormGroup row>
-                        <Label for="exchange">Börs</Label>
-                        <Input id='exchange' type="text" disabled={this.state.loading} value={this.state.stock.exchange} placeholder="Industri" onChange={this.onStockChange}/>
-                    </FormGroup>
-                    <FormGroup row>
-                        <Label for="type">Typ</Label>
-                        <Input id='type' type="text" disabled={this.state.loading} value={this.state.stock.type} placeholder="Industri" onChange={this.onStockChange}/>
-                    </FormGroup>
+                    <Form.Group row>
+                        <Form.Label for="name">Namn</Form.Label>
+                        <Form.Input id='name' type="text" disabled={this.state.loading} value={this.state.stock.name} placeholder="Namn" onChange={this.onStockChange}/>
+                    </Form.Group>
+                    <Form.Group row>
+                        <Form.Label for="industry">Industri</Form.Label>
+                        <Form.Input id='industry' type="text" disabled={this.state.loading} value={this.state.stock.industry} placeholder="Industri" onChange={this.onStockChange}/>
+                    </Form.Group>
+                    <Form.Group row>
+                        <Form.Label for="sector">Sektor</Form.Label>
+                        <Form.Input id='sector' type="text" disabled={this.state.loading} value={this.state.stock.sector} placeholder="Sektor" onChange={this.onStockChange}/>
+                    </Form.Group>
+                    <Form.Group row>
+                        <Form.Label for="exchange">Börs</Form.Label>
+                        <Form.Input id='exchange' type="text" disabled={this.state.loading} value={this.state.stock.exchange} placeholder="Industri" onChange={this.onStockChange}/>
+                    </Form.Group>
+                    <Form.Group row>
+                        <Form.Label for="type">Typ</Form.Label>
+                        <Form.Input id='type' type="text" disabled={this.state.loading} value={this.state.stock.type} placeholder="Industri" onChange={this.onStockChange}/>
+                    </Form.Group>
                 </Form>
+
+                <Form>
+                  <Form.Group>
+                    <Form.Label for="exampleInputEmail1">Email address</Form.Label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"/>
+                    <small id="emailHelp" class="form-text text-muted">Well never share your email with anyone else.</small>
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label for="exampleInputPassword1">Password</Form.Label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"/>
+                  </Form.Group>
+                  <Form.Group className="form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1"/>
+                    <Form.Label class="form-check-label" for="exampleCheck1">Check me out</Form.Label>
+                  </Form.Group>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </Form>
+                </div>
 
             );
         }

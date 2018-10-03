@@ -1,9 +1,11 @@
 import React from 'react';
 
-import { Table, Popover } from 'reactstrap';
 
 import sprintf from 'yow/sprintf';
-import Glyph from './glyph.js';
+
+import {Popup, Glyph} from './ui.js';
+import { Table} from './ui.js';
+//import { Table} from 'reactstrap';
 
 function debug() {
     console.log.apply(null, arguments);
@@ -31,7 +33,7 @@ Module.Glyph = class extends React.Component {
         var {icon, onClick, ...other} = this.props;
 
         return (
-            <td {...other} onClick={this.onClick} style={{opacity:'0.5'}}>
+            <td {...other} onClick={this.onClick} style={{opacity:'1.0'}}>
                 <Glyph icon={icon} style={{fontSize:'120%', cursor:'pointer'}} />
             </td>
         );
@@ -76,22 +78,38 @@ Module.DropdownMenu = class extends React.Component {
         var iconStyle = {};
         iconStyle.fontSize = '120%';
         iconStyle.cursor = 'pointer';
-        iconStyle.opacity = '0.5';
 
         var items = React.Children.map(this.props.children, (child, index) => {
             return React.cloneElement(child, {key:index, stock:this.props.stock, parent:this});
         });
 
 
+        var modifiers: {
+            flip: {
+              enabled: true,
+              boundariesElement: 'viewport'
+            },
+            preventOverflow: {
+              enabled: true,
+              boundariesElement: 'scrollParent'
+            },
+            inner: {
+              enabled: true
+            }
+        };
 
         return (
             <td>
-                <Glyph icon={this.props.icon} id={id} style={iconStyle}  onClick={this.toggle} />
-                <Popover hideArrow={true} placement='auto' isOpen={this.state.isOpen} target={id}  toggle={this.toggle}>
-                    <div className="dropdown-menu" style={{display:'block'}}>
-                        {items}
-                    </div>
-                </Popover>
+                <Popup>
+                    <Popup.Target>
+                        <Glyph icon={this.props.icon} style={iconStyle}  onClick={this.toggle} />
+                    </Popup.Target>
+                    <Popup.Content modifiers={modifiers} placement='bottom-start' isOpen={this.state.isOpen} toggle={this.toggle}>
+                        <div className="dropdown-menu" style={{display:'block'}}>
+                            {items}
+                        </div>
+                    </Popup.Content>
+                </Popup>
             </td>
         );
     }
@@ -99,6 +117,17 @@ Module.DropdownMenu = class extends React.Component {
 
 };
 
+
+Module.Placeholder = class extends React.Component {
+
+
+
+    render() {
+        return this.props.children;
+    }
+
+
+};
 
 Module.DropdownDevider = class extends React.Component {
 
@@ -135,7 +164,7 @@ Module.DropdownItem = class extends React.Component {
     renderIcon() {
         if (this.props.icon) {
             return (
-                <Glyph icon={this.props.icon} style={{fontSize:'125%', opacity:'0.5'}}/>
+                <Glyph icon={this.props.icon} style={{fontSize:'125%', opacity:'1.0'}}/>
             );
         }
     }
@@ -232,6 +261,11 @@ Module.Table = class extends React.Component {
                 return React.cloneElement(child, {key:index, row:rowNumber, stock:stock});
             }
 
+
+            if (child.type === Module.Placeholder) {
+                return React.cloneElement(child, {key:index, row:rowNumber, stock:stock});
+            }
+
         });
 
     }
@@ -250,6 +284,12 @@ Module.Table = class extends React.Component {
             }
 
             if (child.type === Module.DropdownMenu) {
+                return (
+                    <th key={index}>{' '}</th>
+                );
+            }
+
+            if (child.type === Module.Placeholder) {
                 return (
                     <th key={index}>{' '}</th>
                 );
@@ -292,7 +332,7 @@ Module.Table = class extends React.Component {
 
         return(
 
-                <Table hover responsive size='sm'>
+                <Table hover={true} striped={true}>
                     {this.renderHeader()}
                     {this.renderBody()}
                 </Table>

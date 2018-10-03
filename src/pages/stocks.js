@@ -1,28 +1,22 @@
 import React from 'react';
-import { Form, FormGroup, Input} from 'reactstrap';
-import { Container, Row, Col } from 'reactstrap';
-import { Alert, Button } from 'reactstrap';
-import Page from '../components/page.js';
 import StockList from '../components/stock-list.js';
-import Glyph from '../components/glyph.js';
-import Loader from 'react-spinners/PulseLoader';
 import sprintf from 'yow/sprintf';
 import {isString} from 'yow/is';
-import ButtonRow from '../components/button-row.js';
-import PersistentComponent from '../components/persistent-component.js';
 
 import Timer from 'yow/timer';
-
-
+import {Storage} from '../components/storage.js';
+import {Spinner, Alert, Form, Button, Glyph, Page, Popup, ButtonRow} from '../components/ui.js';
 import Request from 'yow/request';
 
+
+import { Container, Row, Col } from '../components/ui.js';
 
 function debug() {
     console.log.apply(null, arguments);
 }
 
 
-export default class Module extends PersistentComponent {
+export default class Module extends React.Component {
 
 
 
@@ -31,6 +25,8 @@ export default class Module extends PersistentComponent {
         super(args);
 
         this.typeTimer = new Timer();
+        this.storage = new Storage(this.props.location.pathname);
+        this.state = this.loadState();
 
         this.onSearch = this.onSearch.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -39,21 +35,23 @@ export default class Module extends PersistentComponent {
         this.onChangeStock = this.onChangeStock.bind(this);
     }
 
-    getPersistentKey() {
-        return this.props.location.pathname;
+    loadState() {
+        return this.storage.load({
+            stocks: null,
+            hits: 0,
+            search: '',
+            alert: null,
+            loading: false
+        });
+
     }
 
-    getDefaultState() {
-        var state = {};
+    saveState() {
+        this.storage.save({stocks:this.state.stocks});
+    }
 
-        state.version = '1.1';
-        state.stocks = null;
-        state.hits = 0;
-        state.search = '';
-        state.alert = null;
-        state.loading = false;
-
-        return state;
+    componentWillUnmount() {
+        this.saveState();
     }
 
 
@@ -136,7 +134,7 @@ export default class Module extends PersistentComponent {
         return new Promise((resolve, reject) => {
             var request = new Request('http://app-o.se:3012', {debug:debug});
 
-            request.get('/query', {query:query}).then(response => {
+            request.get('/mysql', {query:query}).then(response => {
                 return response.body;
             })
             .then((result) => {
@@ -222,6 +220,8 @@ export default class Module extends PersistentComponent {
 
 
         if (this.state.stocks && this.state.stocks.length > 0) {
+
+
             return (
                 <StockList.Table stocks={this.state.stocks}>
                     <StockList.Value name='symbol'>Symbol</StockList.Value>
@@ -231,7 +231,7 @@ export default class Module extends PersistentComponent {
                     <StockList.Value name='exchange'>Börs</StockList.Value>
                     <StockList.Value name='type'>Typ</StockList.Value>
                     <StockList.DropdownMenu>
-                    <StockList.DropdownItem icon='chart-line'>Visa graf</StockList.DropdownItem>
+                        <StockList.DropdownItem icon='chart-line'>Visa graf</StockList.DropdownItem>
                         <StockList.DropdownItem icon='grin-squint-tears-regular' onClick={this.onChangeStock}>Redigera</StockList.DropdownItem>
                         <StockList.DropdownDevider/>
                         <StockList.DropdownItem icon='cancel' onClick={this.onRemoveStock}>Radera</StockList.DropdownItem>
@@ -295,7 +295,7 @@ export default class Module extends PersistentComponent {
 
             return (
                     <div style={style}>
-                        <Loader loading={true} color={'lightblue'}/>
+                        <Spinner/>
                     </div>
             );
 
@@ -327,17 +327,17 @@ export default class Module extends PersistentComponent {
                 <Form>
                     <Row>
                         <Col xs={9} sm={10} md={10} lg={11}>
-                            <FormGroup>
-                                    <Input id='search' type="text" disabled={this.state.loading} value={this.state.search} placeholder="Sök efter aktie" onKeyPress={this.onKeyPress} onChange={this.onChange}/>
-                            </FormGroup>
+                            <Form.Group>
+                                <Form.Input id='search' type="text" disabled={this.state.loading} value={this.state.search} placeholder="Sök efter aktie" onKeyPress={this.onKeyPress} onChange={this.onChange}/>
+                            </Form.Group>
                         </Col>
                         <Col xs={3} sm={2} md={2} lg={1}>
-                            <FormGroup style={{textAlign:'right'}}>
+                            <Form.Group style={{textAlign:'right'}}>
                                 <Button disabled={this.state.loading || this.state.search.length == 0} color='primary' onClick={this.onSearch}>
                                     <Glyph icon='search-solid'>
                                     </Glyph>
                                 </Button>
-                            </FormGroup>
+                            </Form.Group>
                         </Col>
 
                     </Row>

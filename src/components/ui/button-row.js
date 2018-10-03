@@ -1,6 +1,7 @@
 import React from 'react';
+import Component from './component.js';
 
-export default class ButtonRow extends React.Component  {
+export default class ButtonRow extends Component  {
 
     constructor(args) {
         super(args);

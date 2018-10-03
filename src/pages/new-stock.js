@@ -1,5 +1,4 @@
 import React from 'react';
-import Page from '../components/page.js';
 import Request from 'yow/request';
 import sprintf from 'yow/sprintf';
 import yahoo from 'yahoo-finance';
@@ -7,18 +6,13 @@ import yahoo from 'yahoo-finance';
 import {isFunction} from 'yow/is';
 import {isArray, isString} from 'yow/is';
 
-import { Badge, Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
-import { Container, Row, Col } from 'reactstrap';
-import { Table } from 'reactstrap';
-import Loader from 'react-spinners/PulseLoader';
+import {Spinner, Row, Col, Table, Container, Form, Button, Alert, Page} from '../components/ui.js';
 
-import Icon from '../components/icon.js';
-import Glyph from '../components/glyph.js';
 
-import ButtonRow from '../components/button-row.js';
+import {ButtonRow, Icon, Glyph} from '../components/ui.js';
 import StockList from '../components/stock-list.js';
 
-import PersistentComponent from '../components/persistent-component.js';
+import {Storage} from '../components/storage.js';
 
 
 
@@ -29,7 +23,7 @@ function debug() {
 
 
 
-export default class Example extends PersistentComponent {
+export default class Example extends React.Component {
 
 
 
@@ -37,6 +31,8 @@ export default class Example extends PersistentComponent {
         super(args);
 
 
+        this.storage = new Storage(this.props.location.pathname);
+        this.state = this.loadState();
         this.onChange = this.onChange.bind(this);
         this.onOK = this.onOK.bind(this);
         this.onCancel = this.onCancel.bind(this);
@@ -47,20 +43,24 @@ export default class Example extends PersistentComponent {
 
     }
 
-    getPersistentKey() {
-        return this.props.location.pathname;
+    loadState() {
+        return this.storage.load({
+            symbol: '',
+            stocks: [],
+            loading: false,
+            alert: null
+        });
     }
 
-    getDefaultState() {
-        var state = {};
-        state = {};
-        state.symbol = '';
-        state.stocks = [];
-        state.loading = false;
-        state.alert = null;
-
-        return state;
+    saveState() {
+        this.storage.save({stocks:this.state.stocks});
     }
+
+    componentWillUnmount() {
+        this.saveState();
+    }
+
+
 
     onChange(event) {
         var state = {};
@@ -295,9 +295,7 @@ export default class Example extends PersistentComponent {
             style.justifyContent = 'center';
 
             return (
-                    <div style={style}>
-                        <Loader loading={true} color={'lightblue'}/>
-                    </div>
+                <Spinner style={style}/>
             );
 
         }
@@ -332,16 +330,16 @@ export default class Example extends PersistentComponent {
                     <Form>
                         <Row>
                             <Col xs={9} sm={10} md={10} lg={11}>
-                                <FormGroup >
-                                    <Input  id="symbol" type="text" value={this.state.symbol} placeholder="AAPL, TSLA, T, KO" onKeyPress={this.onKeyPress} onChange={this.onChange}/>
-                                </FormGroup>
+                                <Form.Group >
+                                    <Form.Input  id="symbol" type="text" value={this.state.symbol} placeholder="AAPL, TSLA, T, KO" onKeyPress={this.onKeyPress} onChange={this.onChange}/>
+                                </Form.Group>
                             </Col>
                             <Col xs={3} sm={2} md={2} lg={1}>
-                                <FormGroup style={{textAlign:'right'}}>
+                                <Form.Group style={{textAlign:'right'}}>
                                     <Button disabled={this.state.symbol.length == 0 || this.state.loading} color='primary' onClick={this.onOK} >
                                         <Glyph icon='search-solid'/>
                                     </Button>
-                                </FormGroup>
+                                </Form.Group>
                             </Col>
 
                         </Row>

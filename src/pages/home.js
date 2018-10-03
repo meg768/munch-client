@@ -1,11 +1,8 @@
 
-import React from 'react';
+import React, {Component} from 'react';
+import {Page, Button, Jumbotron} from '../components/ui.js';
 
-
-import { Button, Jumbotron } from 'reactstrap';
-import Page from '../components/page.js';
-
-class Module extends React.Component {
+class Module extends Component {
   render() {
     return (
         <Page>

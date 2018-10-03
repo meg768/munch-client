@@ -2,8 +2,7 @@
 import React from 'react';
 
 
-import { Button, Jumbotron } from 'reactstrap';
-import Page from '../components/page.js';
+import {Page, Button, Jumbotron} from '../components/ui.js';
 
 class Module extends React.Component {
   render() {

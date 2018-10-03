@@ -3,11 +3,8 @@ import React from 'react';
 
 
 import { ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap';
-import { Container, Row, Col } from 'reactstrap';
-
-import Page from '../components/page.js';
+import {Container, Row, Col , Page, Spinner} from '../components/ui.js';
 import Request from 'yow/request';
-import Spinner from '../components/spinner.js';
 
 
 export default class Module extends React.Component {
@@ -34,7 +31,7 @@ export default class Module extends React.Component {
         query.sql += " union "
         query.sql += "select 'Första uppdatering', (select CAST(DATE_FORMAT(date, '%Y-%m-%d') AS char) from quotes order by date asc limit 1)";
 
-        request.get('/query', {query:query}).then(response => {
+        request.get('/mysql', {query:query}).then(response => {
             this.setState({stats:response.body});
         })
         .catch(error => {

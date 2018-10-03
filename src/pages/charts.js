@@ -4,7 +4,7 @@ import ReactHighcharts from 'react-highcharts';
 import Request from 'yow/request';
 import sprintf from 'yow/sprintf';
 import QueryString from 'querystring';
-import Spinner from '../components/spinner.js';
+import {Spinner} from '../components/ui.js';
 
 class Module extends React.Component {
 
@@ -61,7 +61,7 @@ console.log(params);
 
         var data = [];
 
-        request.get('/query', {query:query}).then(response => {
+        request.get('/mysql', {query:query}).then(response => {
             var stocks = response.body;
 
             stocks.forEach(stock => {
