@@ -79,7 +79,7 @@ Popup.Content = class extends React.Component {
                     boundariesElement: "scrollParent"
                 }
             },
-            placement: "auto"
+            placement: "bottom-start"
         };
     }
 
@@ -87,11 +87,19 @@ Popup.Content = class extends React.Component {
 
         return (
             <Popper modifiers={this.props.modifiers} placement={this.props.placement}>
-            {({ref, style, placement, arrowProps}) => (
-                <div ref={ref} style={style} data-placement={placement}>
-                    {this.props.children}
-                </div>
-            )}
+            {
+                ({ref, style, placement, arrowProps}) => {
+
+                    console.log(arrowProps);
+                    
+                    return (
+                        <div ref={ref} style={Object.assign({}, style, {zIndex:1000})} data-placement={placement}>
+                            {this.props.children}
+                        </div>
+
+                    );
+                }
+            }
             </Popper>
 
         );

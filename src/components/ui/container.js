@@ -17,15 +17,11 @@ export default class Container extends Component  {
         };
     }
 
-    constructor(props) {
-        super(props);
-    }
-
-
     render() {
         var {className, fluid, ...props} = this.props;
 
-        className = classNames(className, fluid ? 'container-fluid' : 'container');
+        className = classNames(className, {'container' : true});
+        className = classNames(className, {'container-fluid' : fluid});
 
         return (
             <div className={className} {...props}>
@@ -57,21 +53,26 @@ Container.Row = class extends Component {
 
 Container.Col = class extends Component {
 
+    static propTypes = {
+        xs    : PropTypes.number,
+        sm    : PropTypes.number,
+        md    : PropTypes.number,
+        lg    : PropTypes.number,
+        width : PropTypes.number
+    };
 
-    static get defaultProps() {
-        return {
-            size: 'sm'
-        };
-    }
 
     render() {
-        var {xs, sm, md, lg, xl, className, ...props} = this.props;
 
-        className = classNames(className, xs ? 'col-'    + xs : false);
-        className = classNames(className, sm ? 'col-sm-' + sm : false);
-        className = classNames(className, md ? 'col-md-' + md : false);
-        className = classNames(className, lg ? 'col-lg-' + lg : false);
-        className = classNames(className, xl ? 'col-xl-' + xl : false);
+        var {className, xs, sm, md, lg, width, ...props} = this.props;
+
+        className = classNames(className, 'col');
+
+        className = classNames(className, {[`col-${xs}`]:width});
+        className = classNames(className, {[`col-${xs}`]:xs});
+        className = classNames(className, {[`col-sm-${sm}`]:sm});
+        className = classNames(className, {[`col-md-${md}`]:md});
+        className = classNames(className, {[`col-lg-${lg}`]:lg});
 
         return (
             <div className={className} {...props}>

@@ -1,6 +1,15 @@
 import React from 'react';
-import Component from './component.js';
 import classNames from 'classnames';
+import PropTypes from "prop-types";
+
+import Component from './component.js';
+
+var _uniqueID = 0;
+
+function getUniqueID() {
+    return 'A' + _uniqueID++;
+}
+
 
 export default class Form extends Component  {
 
@@ -32,11 +41,25 @@ export default class Form extends Component  {
 
 Form.Group = class extends Component  {
 
+    static propTypes = {
+        xs    : PropTypes.number,
+        sm    : PropTypes.number,
+        md    : PropTypes.number,
+        lg    : PropTypes.number,
+        width : PropTypes.number
+    };
+
     render() {
 
-        var {className, ...props} = this.props;
+        var {className, xs, sm, md, lg, width, ...props} = this.props;
 
         className = classNames(className, 'form-group');
+
+        className = classNames(className, {width:width});
+        className = classNames(className, {[`col-${xs}`]:xs});
+        className = classNames(className, {[`col-sm-${sm}`]:sm});
+        className = classNames(className, {[`col-md-${md}`]:md});
+        className = classNames(className, {[`col-lg-${lg}`]:lg});
 
         return (
             <div {...props} className={className}>
@@ -48,25 +71,45 @@ Form.Group = class extends Component  {
 
 }
 
-Form.Label = class extends Component {
+Form.Row = class extends Component {
 
     render() {
 
         var {className, ...props} = this.props;
-
-        className = classNames(className, null);
+        className = classNames(className, 'form-row');
 
         return (
-            <label {...props} className={className}>
+            <div {...props} className={className}>
                 {this.props.children}
-            </label>
+            </div>
 
         );
     }
 
 }
 
-Form.Input = class extends Component  {
+Form.Col = class extends Component {
+
+    render() {
+
+        var {className, ...props} = this.props;
+        className = classNames(className, 'col');
+
+        return (
+            <div {...props} className={className}>
+                {this.props.children}
+            </div>
+
+        );
+    }
+
+}
+Form.Input = class extends React.Component  {
+
+
+    static propTypes = {
+        plainText : PropTypes.bool
+    };
 
     static get defaultProps() {
         return {
@@ -74,21 +117,31 @@ Form.Input = class extends Component  {
         };
     }
 
-    constructor(args) {
-        super(args);
-
-    }
-
     render() {
 
-        var {className, ...props} = this.props;
+        var {plainText, className, ...props} = this.props;
 
-        className = classNames(className, 'form-control');
+        className = classNames(className, {'form-control':true});
+        className = classNames(className, {'form-control-plainText':plainText});
 
         return (
             <input {...props} className={className}>
                 {this.props.children}
             </input>
+
+        );
+    }
+
+};
+
+
+Form.Label = class extends React.Component  {
+
+    render() {
+        return (
+            <label {...this.props}>
+                {this.props.children}
+            </label>
 
         );
     }

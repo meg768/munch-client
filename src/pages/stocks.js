@@ -9,7 +9,7 @@ import {Spinner, Alert, Form, Button, Glyph, Page, Popup, ButtonRow} from '../co
 import Request from 'yow/request';
 
 
-import { Container, Row, Col } from '../components/ui.js';
+import { Container} from '../components/ui.js';
 
 function debug() {
     console.log.apply(null, arguments);
@@ -325,22 +325,18 @@ export default class Module extends React.Component {
             <Page>
                 <Container>
                 <Form>
-                    <Row>
-                        <Col xs={9} sm={10} md={10} lg={11}>
-                            <Form.Group>
-                                <Form.Input id='search' type="text" disabled={this.state.loading} value={this.state.search} placeholder="Sök efter aktie" onKeyPress={this.onKeyPress} onChange={this.onChange}/>
-                            </Form.Group>
-                        </Col>
-                        <Col xs={3} sm={2} md={2} lg={1}>
-                            <Form.Group style={{textAlign:'right'}}>
-                                <Button disabled={this.state.loading || this.state.search.length == 0} color='primary' onClick={this.onSearch}>
-                                    <Glyph icon='search-solid'>
-                                    </Glyph>
-                                </Button>
-                            </Form.Group>
-                        </Col>
+                    <Form.Row>
+                        <Form.Group xs={10} sm={10} md={10} lg={11}>
+                            <Form.Input id='search' type="text" disabled={this.state.loading} value={this.state.search} placeholder="Sök efter aktie" onKeyPress={this.onKeyPress} onChange={this.onChange}/>
+                        </Form.Group>
+                        <Form.Group xs={2} sm={2} md={2} lg={1} style={{textAlign:'right'}}>
+                            <Button disabled={this.state.loading || this.state.search.length == 0} color='primary' onClick={this.onSearch}>
+                                <Glyph icon='search-solid'>
+                                </Glyph>
+                            </Button>
+                        </Form.Group>
 
-                    </Row>
+                    </Form.Row>
                 </Form>
                 <div>
                     {this.renderHitCount()}

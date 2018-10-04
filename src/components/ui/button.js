@@ -4,14 +4,18 @@ import PropTypes from "prop-types";
 
 export default class Button extends Component  {
 
+    constructor(args) {
+        super(args);
+
+        this.onClick = this.onClick.bind(this);
+    }
+
 
     static propTypes = {
         color      : PropTypes.string,
         tag        : PropTypes.string,
         onClick    : PropTypes.func,
-        disabled   : PropTypes.bool,
-        modifiers  : PropTypes.object,
-        placement  : PropTypes.string
+        disabled   : PropTypes.bool
     };
 
     static get defaultProps() {
@@ -21,12 +25,6 @@ export default class Button extends Component  {
             disabled : false
         };
     }
-    constructor(args) {
-        super(args);
-
-        this.onClick = this.onClick.bind(this);
-    }
-
 
     onClick(event) {
         if (this.props.disabled) {
@@ -42,12 +40,11 @@ export default class Button extends Component  {
 
     render() {
 
-        var className = 'btn';
-        var {tag : Tag, color, ...props} = this.props;
+        var {tag : Tag, className, color, ...props} = this.props;
 
-        if (color) {
-            className = classNames(className, 'btn-' + color);
-        }
+        className = classNames(className, 'btn');
+        className = classNames(className, {[`btn-${color}`]:color});
+
 
         if (!Tag) {
             Tag = props.href ? 'a' : 'button';
@@ -57,7 +54,6 @@ export default class Button extends Component  {
         if (props.href && Tag === 'button') {
             Tag = 'a';
         }
-        console.log({...props});
 
         return (
             <Tag {...props} className={className} onClick={this.onClick}>

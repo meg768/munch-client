@@ -2,7 +2,7 @@ import React from 'react';
 
 
 import logo from '../logo.svg';
-import {Icon} from './ui.js';
+import {Popup, Icon} from './ui.js';
 
 /*
 <UncontrolledDropdown nav inNavbar>
@@ -39,6 +39,7 @@ class NavigationBar extends React.Component {
         };
     }
     toggle() {
+        console.log('toggle');
         this.setState({
             isOpen: !this.state.isOpen
         });
@@ -47,6 +48,29 @@ class NavigationBar extends React.Component {
         var style = {};
 
         style.border = '0.05em solid rgba(0, 0, 0, 0.1)';
+
+        return (
+            <nav className="navbar navbar-expand-sm navbar-light bg-light">
+              <a className="navbar-brand" href="#">
+                  <Icon style={{transform:'scale(3.0)', color:'green', marginRight:'0.75em', marginLeft:'0.5em'}} icon='chart-line'></Icon>
+                  Munch
+
+
+              </a>
+
+
+              <div className="collapse navbar-collapse" style={{textAlign:'right'}} id="navbarSupportedContent">
+                <ul className="navbar-nav ml-auto">
+                  <li className="nav-item active">
+                    <a className="nav-link" href="#/stocks">Aktier <span className="sr-only">(current)</span></a>
+                  </li>
+                  <li className="nav-item active">
+                    <a className="nav-link" href="#/statistics">Statistik</a>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+        );
 
         return (
             <div style={style}>

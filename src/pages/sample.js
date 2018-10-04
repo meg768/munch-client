@@ -1,10 +1,9 @@
 import React from 'react';
 import StockList from '../components/stock-list.js';
-import Loader from 'react-spinners/PulseLoader';
 import sprintf from 'yow/sprintf';
 import {isString} from 'yow/is';
 import {Glyph, Icon, Page, ButtonRow} from '../components/ui.js';
-import {Container, Row, Col, Button, Popup, Dropdown} from '../components/ui.js';
+import {Spinner, Container, Row, Col, Button, Popup, Dropdown} from '../components/ui.js';
 
 import Timer from 'yow/timer';
 import {Storage} from '../components/storage.js';

@@ -1,15 +1,18 @@
 import React from 'react';
 
 import StockList from '../components/stock-list.js';
-import {Spinner, Container, Row, Col, Form, Alert, Input, Button, ButtonRow, Glyph, Page} from '../components/ui.js';
+import {Spinner, Container, Row, Col, Form, Alert, Button, ButtonRow, Glyph, Page} from '../components/ui.js';
 
 import Request from 'yow/request';
 import {Storage} from '../components/storage.js';
 
+import classNames from 'classnames';
+import PropTypes from "prop-types";
 
 function debug() {
     console.log.apply(null, arguments);
 }
+
 
 
 export default class Module extends React.Component {
@@ -174,59 +177,44 @@ export default class Module extends React.Component {
 
     }
 
+
     renderForm() {
 
         if (this.state.stock) {
 
             return (
-                <div>
                 <Form>
                     <Form.Group>
-                        <Form.Label style={{fontSize:'200%'}}>
-                            {this.state.stock.symbol}
-
-                        </Form.Label>
+                        <Form.Label for="symbol">Symbol</Form.Label>
+                        <Form.Input type="text" readOnly plainText id="symbol" value={this.state.stock.symbol}/>
                     </Form.Group>
 
-                    <Form.Group row>
+                    <Form.Group>
                         <Form.Label for="name">Namn</Form.Label>
                         <Form.Input id='name' type="text" disabled={this.state.loading} value={this.state.stock.name} placeholder="Namn" onChange={this.onStockChange}/>
                     </Form.Group>
-                    <Form.Group row>
-                        <Form.Label for="industry">Industri</Form.Label>
-                        <Form.Input id='industry' type="text" disabled={this.state.loading} value={this.state.stock.industry} placeholder="Industri" onChange={this.onStockChange}/>
-                    </Form.Group>
-                    <Form.Group row>
-                        <Form.Label for="sector">Sektor</Form.Label>
-                        <Form.Input id='sector' type="text" disabled={this.state.loading} value={this.state.stock.sector} placeholder="Sektor" onChange={this.onStockChange}/>
-                    </Form.Group>
-                    <Form.Group row>
-                        <Form.Label for="exchange">Börs</Form.Label>
-                        <Form.Input id='exchange' type="text" disabled={this.state.loading} value={this.state.stock.exchange} placeholder="Industri" onChange={this.onStockChange}/>
-                    </Form.Group>
-                    <Form.Group row>
-                        <Form.Label for="type">Typ</Form.Label>
-                        <Form.Input id='type' type="text" disabled={this.state.loading} value={this.state.stock.type} placeholder="Industri" onChange={this.onStockChange}/>
-                    </Form.Group>
-                </Form>
 
-                <Form>
-                  <Form.Group>
-                    <Form.Label for="exampleInputEmail1">Email address</Form.Label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"/>
-                    <small id="emailHelp" class="form-text text-muted">Well never share your email with anyone else.</small>
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label for="exampleInputPassword1">Password</Form.Label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"/>
-                  </Form.Group>
-                  <Form.Group className="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1"/>
-                    <Form.Label class="form-check-label" for="exampleCheck1">Check me out</Form.Label>
-                  </Form.Group>
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                    <Form.Row>
+                        <Form.Group md={6}>
+                            <Form.Label for="industry">Industri</Form.Label>
+                            <Form.Input id='industry' type="text" disabled={this.state.loading} value={this.state.stock.industry} placeholder="Industri" onChange={this.onStockChange}/>
+                        </Form.Group>
+                        <Form.Group md={6}>
+                            <Form.Label for="sector">Sektor</Form.Label>
+                            <Form.Input id='sector' type="text" disabled={this.state.loading} value={this.state.stock.sector} placeholder="Sektor" onChange={this.onStockChange}/>
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row>
+                        <Form.Group md={6}>
+                            <Form.Label for="exchange">Börs</Form.Label>
+                            <Form.Input id='exchange' type="text" disabled={this.state.loading} value={this.state.stock.exchange} placeholder="Industri" onChange={this.onStockChange}/>
+                        </Form.Group>
+                        <Form.Group md={6}>
+                            <Form.Label for="type">Typ</Form.Label>
+                            <Form.Input id='type' type="text" disabled={this.state.loading} value={this.state.stock.type} placeholder="Industri" onChange={this.onStockChange}/>
+                        </Form.Group>
+                    </Form.Row>
                 </Form>
-                </div>
 
             );
         }

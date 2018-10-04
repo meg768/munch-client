@@ -21,21 +21,11 @@ export default class Table extends Component  {
             dark       : false,
             bordered   : false,
             borderless : false,
-            size       : 'lg',
+            size       : 'md',
             style      : {width:'100%'}
         };
     }
 
-
-    componentDidMount() {
-    }
-
-    componentWillUnmount() {
-    }
-
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         var {style, className, striped, dark, hover, bordered, borderless, size, ...props} = this.props;

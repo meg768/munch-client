@@ -56,6 +56,7 @@ Module.DropdownMenu = class extends React.Component {
         this.state = {};
         this.state.isOpen = false;
 
+
         this.toggle = this.toggle.bind(this);
     }
 
@@ -104,7 +105,7 @@ Module.DropdownMenu = class extends React.Component {
                     <Popup.Target>
                         <Glyph icon={this.props.icon} style={iconStyle}  onClick={this.toggle} />
                     </Popup.Target>
-                    <Popup.Content modifiers={modifiers} placement='bottom-start' isOpen={this.state.isOpen} toggle={this.toggle}>
+                    <Popup.Content modifiers={modifiers} persist={false} placement='bottom-start' isOpen={this.state.isOpen} toggle={this.toggle}>
                         <div className="dropdown-menu" style={{display:'block'}}>
                             {items}
                         </div>
@@ -149,7 +150,6 @@ Module.DropdownItem = class extends React.Component {
     constructor(args) {
         super(args);
 
-        console.log(this.props);
         this.onClick = this.onClick.bind(this);
 
     }
