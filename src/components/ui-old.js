@@ -6,7 +6,7 @@ import Icon from './ui/icon.js';
 import Spinner from './ui/spinner.js';
 import Dropdown from './ui/dropdown.js';
 import ButtonRow from './ui/button-row.js';
-import Button from 'react-mbs/dist/button';
+import Button from 'react-bootify/dist/button';
 import Form from './ui/form.js';
 import Jumbotron from './ui/jumbotron.js';
 import Alert from './ui/alert.js';

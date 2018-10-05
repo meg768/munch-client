@@ -3,8 +3,8 @@ import React from 'react';
 
 import sprintf from 'yow/sprintf';
 
-import {Popup, Glyph} from 'react-mbs';
-import { Table} from 'react-mbs';
+import {Popup, Glyph} from 'react-bootify';
+import { Table} from 'react-bootify';
 //import { Table} from 'reactstrap';
 
 function debug() {

@@ -2,8 +2,8 @@ import React from 'react';
 import StockList from '../components/stock-list.js';
 import sprintf from 'yow/sprintf';
 import {isString} from 'yow/is';
-import {Glyph, Icon, ButtonRow} from 'react-mbs';
-import {Spinner, Container, Row, Col, Button, Popup, Dropdown} from 'react-mbs';
+import {Glyph, Icon, ButtonRow} from 'react-bootify';
+import {Spinner, Container, Row, Col, Button, Popup, Dropdown} from 'react-bootify';
 import Page from '../components/page.js'
 import Timer from 'yow/timer';
 import {Storage} from '../components/storage.js';

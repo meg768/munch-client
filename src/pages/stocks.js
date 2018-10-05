@@ -5,7 +5,7 @@ import {isString} from 'yow/is';
 
 import Timer from 'yow/timer';
 import {Storage} from '../components/storage.js';
-import {Spinner, Alert, Form, Glyph, Container, Popup, ButtonRow, Button} from 'react-mbs';
+import {Spinner, Alert, Form, Glyph, Container, Popup, ButtonRow, Button} from 'react-bootify';
 import Page from '../components/page.js';
 
 import Request from 'yow/request';

@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {Button, Jumbotron} from 'react-mbs';
+import {Button, Jumbotron} from 'react-bootify';
 import Page from '../components/page.js';
 
 class Module extends Component {

@@ -3,7 +3,7 @@ import React from 'react';
 
 
 import Page from '../components/page.js';
-import {Button, Jumbotron} from 'react-mbs';
+import {Button, Jumbotron} from 'react-bootify';
 
 class Module extends React.Component {
   render() {
