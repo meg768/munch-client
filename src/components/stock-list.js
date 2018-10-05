@@ -3,8 +3,8 @@ import React from 'react';
 
 import sprintf from 'yow/sprintf';
 
-import {Popup, Glyph} from './ui.js';
-import { Table} from './ui.js';
+import {Popup, Glyph} from 'react-mbs';
+import { Table} from 'react-mbs';
 //import { Table} from 'reactstrap';
 
 function debug() {
@@ -98,14 +98,28 @@ Module.DropdownMenu = class extends React.Component {
               enabled: true
             }
         };
-
+/*
+        return (
+            <td>
+                <Popper
+                parent={<div>Parent element</div>}
+                target={ (style) => (
+                    <div style={style}>Popper element</div>
+                )}
+                options={{
+                    placement : 'top'
+                }}
+                />
+            </td>
+        );
+*/
         return (
             <td>
                 <Popup>
                     <Popup.Target>
                         <Glyph icon={this.props.icon} style={iconStyle}  onClick={this.toggle} />
                     </Popup.Target>
-                    <Popup.Content modifiers={modifiers} persist={false} placement='bottom-start' isOpen={this.state.isOpen} toggle={this.toggle}>
+                    <Popup.Content modifiers={modifiers} persist={false} placement='auto' isOpen={this.state.isOpen} toggle={this.toggle}>
                         <div className="dropdown-menu" style={{display:'block'}}>
                             {items}
                         </div>

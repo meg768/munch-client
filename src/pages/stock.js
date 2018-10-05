@@ -1,7 +1,8 @@
 import React from 'react';
 
 import StockList from '../components/stock-list.js';
-import {Spinner, Container, Row, Col, Form, Alert, Button, ButtonRow, Glyph, Page} from '../components/ui.js';
+import {Spinner, Container, Row, Col, Form, Alert, Button, ButtonRow, Glyph} from 'react-mbs';
+import Page from '../components/page.js';
 
 import Request from 'yow/request';
 import {Storage} from '../components/storage.js';

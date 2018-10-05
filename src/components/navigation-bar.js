@@ -2,7 +2,7 @@ import React from 'react';
 
 
 import logo from '../logo.svg';
-import {Popup, Icon} from './ui.js';
+import {Popup, Icon} from 'react-mbs';
 
 /*
 <UncontrolledDropdown nav inNavbar>
@@ -19,7 +19,7 @@ import {Popup, Icon} from './ui.js';
     </DropdownMenu>
 </UncontrolledDropdown>
 */
-
+/*
 import {
     Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem,
     NavLink,
@@ -28,7 +28,7 @@ import {
     DropdownMenu,
     DropdownItem
 } from 'reactstrap';
-
+*/
 class NavigationBar extends React.Component {
     constructor(props) {
         super(props);
@@ -71,7 +71,7 @@ class NavigationBar extends React.Component {
               </div>
             </nav>
         );
-
+/*
         return (
             <div style={style}>
                 <Navbar color="light" light expand="md">
@@ -97,6 +97,7 @@ class NavigationBar extends React.Component {
                 </Navbar>
             </div>
         );
+        */
     }
 }
 

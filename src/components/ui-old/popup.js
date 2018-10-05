@@ -90,8 +90,9 @@ Popup.Content = class extends React.Component {
             {
                 ({ref, style, placement, arrowProps}) => {
 
-                    console.log(arrowProps);
-                    
+                    console.log('arrowProps', arrowProps);
+                    console.log('placement', placement);
+
                     return (
                         <div ref={ref} style={Object.assign({}, style, {zIndex:1000})} data-placement={placement}>
                             {this.props.children}

@@ -5,11 +5,11 @@ import {isString} from 'yow/is';
 
 import Timer from 'yow/timer';
 import {Storage} from '../components/storage.js';
-import {Spinner, Alert, Form, Button, Glyph, Page, Popup, ButtonRow} from '../components/ui.js';
+import {Spinner, Alert, Form, Glyph, Container, Popup, ButtonRow, Button} from 'react-mbs';
+import Page from '../components/page.js';
+
 import Request from 'yow/request';
 
-
-import { Container} from '../components/ui.js';
 
 function debug() {
     console.log.apply(null, arguments);
@@ -322,7 +322,7 @@ export default class Module extends React.Component {
     render() {
         var columnStyle = {marginTop:'0.5em', marginBottom:'0.5em'};
         return (
-            <Page>
+                <Page>
                 <Container>
                 <Form>
                     <Form.Row>
@@ -346,7 +346,7 @@ export default class Module extends React.Component {
                     {this.renderLoader()}
                 </div>
                 </Container>
-            </Page>
+                </Page>
         );
     }
 }

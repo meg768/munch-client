@@ -2,9 +2,9 @@ import React from 'react';
 import StockList from '../components/stock-list.js';
 import sprintf from 'yow/sprintf';
 import {isString} from 'yow/is';
-import {Glyph, Icon, Page, ButtonRow} from '../components/ui.js';
-import {Spinner, Container, Row, Col, Button, Popup, Dropdown} from '../components/ui.js';
-
+import {Glyph, Icon, ButtonRow} from 'react-mbs';
+import {Spinner, Container, Row, Col, Button, Popup, Dropdown} from 'react-mbs';
+import Page from '../components/page.js'
 import Timer from 'yow/timer';
 import {Storage} from '../components/storage.js';
 

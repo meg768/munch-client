@@ -1,6 +1,7 @@
 
 import React, {Component} from 'react';
-import {Page, Button, Jumbotron} from '../components/ui.js';
+import {Button, Jumbotron} from 'react-mbs';
+import Page from '../components/page.js';
 
 class Module extends Component {
   render() {

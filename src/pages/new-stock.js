@@ -5,11 +5,12 @@ import yahoo from 'yahoo-finance';
 
 import {isFunction} from 'yow/is';
 import {isArray, isString} from 'yow/is';
+import Page from '../components/page.js';
 
-import {Spinner, Row, Col, Table, Container, Form, Button, Alert, Page} from '../components/ui.js';
+import {Spinner, Row, Col, Table, Container, Form, Button, Alert} from 'react-mbs';
 
 
-import {ButtonRow, Icon, Glyph} from '../components/ui.js';
+import {ButtonRow, Icon, Glyph} from 'react-mbs';
 import StockList from '../components/stock-list.js';
 
 import {Storage} from '../components/storage.js';

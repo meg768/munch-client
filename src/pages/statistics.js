@@ -3,7 +3,8 @@ import React from 'react';
 
 
 import { ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap';
-import {Container, Row, Col , Page, Spinner} from '../components/ui.js';
+import Page from '../components/page.js';
+import {Container, Row, Col , Spinner} from 'react-mbs';
 import Request from 'yow/request';
 
 
