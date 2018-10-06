@@ -2,7 +2,7 @@ import './App.css';
 
 import React from 'react';
 import Router from './components/router.js';
-import Theme from './components/theme.js';
+import Theme from 'react-bootify-theme';
 
 export default class App extends React.Component {
 
@@ -13,7 +13,7 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <Theme Xname='cosmo'>
+            <Theme supplier='bootswatch' name='cerulean'>
                 <Router/>
             </Theme>
         );
