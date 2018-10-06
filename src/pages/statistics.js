@@ -4,8 +4,9 @@ import React from 'react';
 
 import { ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap';
 import Page from '../components/page.js';
-import {Container, Row, Col , Spinner} from 'react-bootify';
+import {Container, Row, Col} from 'react-bootify';
 import Request from 'yow/request';
+import Spinner from '../components/Spinner.js';
 
 
 export default class Module extends React.Component {

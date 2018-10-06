@@ -1,8 +1,9 @@
 import React from 'react';
 
 import StockList from '../components/stock-list.js';
-import {Spinner, Container, Row, Col, Form, Alert, Button, ButtonRow, Glyph} from 'react-bootify';
+import {Container, Row, Col, Form, Alert, Button, ButtonRow, Glyph} from 'react-bootify';
 import Page from '../components/page.js';
+import Spinner from '../components/spinner.js';
 
 import Request from 'yow/request';
 import {Storage} from '../components/storage.js';

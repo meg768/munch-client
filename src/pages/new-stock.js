@@ -7,8 +7,8 @@ import {isFunction} from 'yow/is';
 import {isArray, isString} from 'yow/is';
 import Page from '../components/page.js';
 
-import {Spinner, Row, Col, Table, Container, Form, Button, Alert} from 'react-bootify';
-
+import {Row, Col, Table, Container, Form, Button, Alert} from 'react-bootify';
+import Spinner from '../components/spinner.js';
 
 import {ButtonRow, Icon, Glyph} from 'react-bootify';
 import StockList from '../components/stock-list.js';

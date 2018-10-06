@@ -4,7 +4,7 @@ import ReactHighcharts from 'react-highcharts';
 import Request from 'yow/request';
 import sprintf from 'yow/sprintf';
 import QueryString from 'querystring';
-import {Spinner} from 'react-bootify';
+import Spinner from '../components/spinner.js';
 
 class Module extends React.Component {
 
