@@ -6,7 +6,7 @@ import { ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap';
 import Page from '../components/page.js';
 import {Container, Row, Col} from 'react-bootify';
 import Request from 'yow/request';
-import Spinner from '../components/Spinner.js';
+import Spinner from '../components/spinner.js';
 
 
 export default class Module extends React.Component {
@@ -43,6 +43,18 @@ export default class Module extends React.Component {
 
     }
 
+    renderSpinner() {
+        if (!this.state.stats) {
+            return (
+                <Spinner/>
+            );
+
+        }
+        else {
+            return null;
+        }
+    }
+
     renderList() {
         if (this.state.stats) {
             var children = this.state.stats.map((stat, index) => {
@@ -58,18 +70,20 @@ export default class Module extends React.Component {
                 </ListGroup>
             );
         }
+        else {
+            return null;
+        }
     }
 
     render() {
-        if (!this.state.stats) {
-            return <Spinner/>;
-        }
         return (
             <Page>
                 <Container>
-                {this.renderList()}
+                    {this.renderSpinner()}
+                    {this.renderList()}
                 </Container>
             </Page>
+
         );
     }
 

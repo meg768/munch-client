@@ -16,6 +16,14 @@ export default class Spinner extends React.Component {
     render() {
         var {size, color, style, ...props} = this.props;
 
+
+        if (!style) {
+            style = {};
+            style.textAlign = 'center';
+            style.display = 'flex';
+            style.justifyContent = 'center';
+        }
+
         if (!size)
             size = 20;
 
