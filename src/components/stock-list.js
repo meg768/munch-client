@@ -3,7 +3,7 @@ import React from 'react';
 
 import sprintf from 'yow/sprintf';
 
-import {Popup, Glyph} from 'react-bootify';
+import {Popper, Glyph} from 'react-bootify';
 import { Table} from 'react-bootify';
 //import { Table} from 'reactstrap';
 
@@ -115,16 +115,16 @@ Module.DropdownMenu = class extends React.Component {
 */
         return (
             <td>
-                <Popup>
-                    <Popup.Target>
+                <Popper>
+                    <Popper.Target>
                         <Glyph icon={this.props.icon} style={iconStyle}  onClick={this.toggle} />
-                    </Popup.Target>
-                    <Popup.Content modifiers={modifiers} persist={false} placement='auto' isOpen={this.state.isOpen} toggle={this.toggle}>
+                    </Popper.Target>
+                    <Popper.Content modifiers={modifiers} persist={false} placement='auto' isOpen={this.state.isOpen} toggle={this.toggle}>
                         <div className="dropdown-menu" style={{display:'block'}}>
                             {items}
                         </div>
-                    </Popup.Content>
-                </Popup>
+                    </Popper.Content>
+                </Popper>
             </td>
         );
     }

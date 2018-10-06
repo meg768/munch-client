@@ -3,7 +3,7 @@ import StockList from '../components/stock-list.js';
 import sprintf from 'yow/sprintf';
 import {isString} from 'yow/is';
 import {Glyph, Icon, ButtonRow} from 'react-bootify';
-import {Container, Row, Col, Button, Popup, Dropdown} from 'react-bootify';
+import {Container, Row, Col, Button, Popper, Dropdown} from 'react-bootify';
 import Page from '../components/page.js'
 import Spinner from '../components/spinner.js'
 import Timer from 'yow/timer';
@@ -55,20 +55,20 @@ class DropdownSample extends React.Component {
 
     render() {
         return (
-            <Popup>
-                <Popup.Target>
+            <Popper>
+                <Popper.Target>
                     <Button onClick={this.toggle}>
                         Dropdown
                     </Button>
-               </Popup.Target>
-                <Popup.Content isOpen={this.state.isOpen} toggle={this.toggle}>
+               </Popper.Target>
+                <Popper.Content isOpen={this.state.isOpen} toggle={this.toggle}>
                     <div className="dropdown-menu" style={{display:'block'}}>
                       <a className="dropdown-item" onClick={this.onAction}>Action</a>
                       <a className="dropdown-item" href="#">Another action</a>
                       <a className="dropdown-item">Something else here</a>
                     </div>
-                </Popup.Content>
-            </Popup>
+                </Popper.Content>
+            </Popper>
         );
 
 

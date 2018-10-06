@@ -20,6 +20,30 @@ export default class Module extends React.Component {
         this.state.error = null;
     }
 
+    run(promise) {
+
+        return new Promise((resolve, reject) => {
+            var time = new Date();
+
+            this.setState({loading:true});
+
+            promise.then((result) => {
+                var now = new Date();
+                var delay =  Math.max(750, Math.abs(time.valueOf() - now.valueOf()));
+
+                setTimeout(() => {
+                    this.setState({loading:false});
+                    resolve(result);
+                }, delay);
+
+            })
+            .catch(error => {
+                reject(error);
+            })
+
+        });
+
+    }
 
     componentDidMount() {
         console.log('Fetching statistics');
@@ -33,7 +57,7 @@ export default class Module extends React.Component {
         query.sql += " union "
         query.sql += "select 'Första uppdatering', (select CAST(DATE_FORMAT(date, '%Y-%m-%d') AS char) from quotes order by date asc limit 1)";
 
-        request.get('/mysql', {query:query}).then(response => {
+        this.run(request.get('/mysql', {query:query})).then(response => {
             this.setState({stats:response.body});
         })
         .catch(error => {
