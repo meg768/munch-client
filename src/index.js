@@ -1,5 +1,4 @@
-import 'bootswatch/dist/materia/bootstrap.min.css';
-//import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 import './fontello/css/fontello-embedded.css';
 
@@ -10,4 +9,4 @@ import registerServiceWorker from './registerServiceWorker';
 
 registerServiceWorker();
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App/>, document.getElementById('app'));
