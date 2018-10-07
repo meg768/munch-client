@@ -13,7 +13,7 @@
     "prop-types": "^15.6.2",
     "query-string": "^6.1.0",
     "react": "^16.4.2",
-    "react-bootify": "0.0.16",
+    "react-bootify": "0.0.18",
     "react-bootify-theme": "0.0.11",
     "react-dom": "^16.4.2",
     "react-highcharts": "^16.0.2",
