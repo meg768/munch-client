@@ -3,7 +3,7 @@ import React from 'react';
 
 import sprintf from 'yow/sprintf';
 
-import {Popper, Glyph} from 'react-bootify';
+import {Dropdown, Glyph} from 'react-bootify';
 import { Table} from 'react-bootify';
 //import { Table} from 'reactstrap';
 
@@ -85,46 +85,17 @@ Module.DropdownMenu = class extends React.Component {
         });
 
 
-        var modifiers: {
-            flip: {
-              enabled: true,
-              boundariesElement: 'viewport'
-            },
-            preventOverflow: {
-              enabled: true,
-              boundariesElement: 'scrollParent'
-            },
-            inner: {
-              enabled: true
-            }
-        };
-/*
+
         return (
             <td>
-                <Popper
-                parent={<div>Parent element</div>}
-                target={ (style) => (
-                    <div style={style}>Popper element</div>
-                )}
-                options={{
-                    placement : 'top'
-                }}
-                />
-            </td>
-        );
-*/
-        return (
-            <td>
-                <Popper>
-                    <Popper.Target>
+                <Dropdown isOpen={this.state.isOpen} toggle={this.toggle} placement='left-start'>
+                    <Dropdown.Target>
                         <Glyph icon={this.props.icon} style={iconStyle}  onClick={this.toggle} />
-                    </Popper.Target>
-                    <Popper.Content modifiers={modifiers} persist={false} placement='auto' isOpen={this.state.isOpen} toggle={this.toggle}>
-                        <div className="dropdown-menu" style={{display:'block'}}>
-                            {items}
-                        </div>
-                    </Popper.Content>
-                </Popper>
+                    </Dropdown.Target>
+                    <Dropdown.Menu >
+                        {items}
+                    </Dropdown.Menu>
+                </Dropdown>
             </td>
         );
     }

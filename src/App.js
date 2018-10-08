@@ -1,8 +1,8 @@
 import './App.css';
-import 'bootswatch/dist/materia/bootstrap.min.css';
 
 import React from 'react';
 import Router from './components/router.js';
+import Theme from './components/theme.js';
 
 
 export default class App extends React.Component {
@@ -14,7 +14,9 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <Router/>
+            <Theme name='darkly'>
+                <Router/>
+            </Theme>
         );
     }
 }
