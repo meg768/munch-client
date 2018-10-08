@@ -33,9 +33,9 @@ Module.Glyph = class extends React.Component {
         var {icon, onClick, ...other} = this.props;
 
         return (
-            <td {...other} onClick={this.onClick} style={{opacity:'1.0'}}>
+            <Table.Row header {...other} onClick={this.onClick} style={{opacity:'1.0'}}>
                 <Glyph icon={icon} style={{fontSize:'120%', cursor:'pointer'}} />
-            </td>
+            </Table.Row>
         );
     }
 }
@@ -87,7 +87,7 @@ Module.DropdownMenu = class extends React.Component {
 
 
         return (
-            <td>
+            <Table.Row>
                 <Dropdown isOpen={this.state.isOpen} toggle={this.toggle} placement='left-start'>
                     <Dropdown.Target>
                         <Glyph icon={this.props.icon} style={iconStyle}  onClick={this.toggle} />
@@ -96,7 +96,7 @@ Module.DropdownMenu = class extends React.Component {
                         {items}
                     </Dropdown.Menu>
                 </Dropdown>
-            </td>
+            </Table.Row>
         );
     }
 
@@ -231,9 +231,9 @@ Module.Table = class extends React.Component {
 
             if (child.type === Module.Value) {
                 return (
-                    <td key={index}>
+                    <Table.Col key={index}>
                         {stock[child.props.name]}
-                    </td>
+                    </Table.Col>
                 );
             }
 
@@ -264,30 +264,30 @@ Module.Table = class extends React.Component {
 
             if (child.type === Module.Glyph) {
                 return (
-                    <th key={index}>{' '}</th>
+                    <Table.Col header key={index}>{' '}</Table.Col>
                 );
             }
 
             if (child.type === Module.DropdownMenu) {
                 return (
-                    <th key={index}>{' '}</th>
+                    <Table.Col header key={index}>{' '}</Table.Col>
                 );
             }
 
             if (child.type === Module.Placeholder) {
                 return (
-                    <th key={index}>{' '}</th>
+                    <Table.Col header key={index}>{' '}</Table.Col>
                 );
             }
 
         });
 
         return (
-            <thead>
-                <tr>
+            <Table.Header>
+                <Table.Row>
                     {titles}
-                </tr>
-            </thead>
+                </Table.Row>
+            </Table.Header>
         );
     }
 
@@ -297,14 +297,14 @@ Module.Table = class extends React.Component {
 
         var rows = stocks.map((stock, index) => {
             return (
-                <tr key={index}>{this.renderRow(stock, index)}</tr>
+                <Table.Row key={index}>{this.renderRow(stock, index)}</Table.Row>
             );
         });
 
         return (
-            <tbody>
+            <Table.Body>
                 {rows}
-            </tbody>
+            </Table.Body>
         );
 
     }

@@ -14,7 +14,7 @@
     "prop-types": "^15.6.2",
     "query-string": "^6.1.0",
     "react": "^16.4.2",
-    "react-bootify": "0.0.21",
+    "react-bootify": "0.0.23",
     "react-dom": "^16.4.2",
     "react-highcharts": "^16.0.2",
     "react-popper": "^1.0.2",
