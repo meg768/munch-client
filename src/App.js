@@ -14,7 +14,7 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <Theme name='darkly'>
+            <Theme name='flatly'>
                 <Router/>
             </Theme>
         );

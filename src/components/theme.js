@@ -5,13 +5,17 @@ export default class Theme extends Component {
 
 
     static defaultProps = {
-        name: 'materia'
+        name: null
     };
 
     constructor(props) {
         super(props);
 
-        require('bootswatch/dist/' + this.props.name + '/bootstrap.min.css');
+        if (this.props.name)
+            require('bootswatch/dist/' + this.props.name + '/bootstrap.min.css');
+        else
+            require('bootstrap-css-only/css/bootstrap.min.css');
+
     }
 
     render() {
