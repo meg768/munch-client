@@ -153,7 +153,7 @@ Module.DropdownItem = class extends React.Component {
         style.cursor = 'pointer';
 
         return (
-            <a className='dropdown-item' onClick={this.onClick} style={style} {...props}>
+            <a className='dropdown-item' tabIndex={1} onClick={this.onClick} style={style} {...props}>
 
                 {this.renderIcon()}
                 {this.renderText()}

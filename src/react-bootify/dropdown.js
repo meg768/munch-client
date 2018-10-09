@@ -198,7 +198,7 @@ Dropdown.Item = function(props) {
     style = Object.assign({}, style, {cursor:'pointer'});
 
     return (
-        <Tag tag={tag} style={style} className={className} {...other}/>
+        <Tag tag={tag} tabIndex={1} style={style} className={className} {...other}/>
     );
 }
 
