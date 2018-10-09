@@ -3,9 +3,7 @@ import React from 'react';
 
 import sprintf from 'yow/sprintf';
 
-import {Dropdown, Glyph} from 'react-bootify';
-import { Table} from 'react-bootify';
-//import { Table} from 'reactstrap';
+import {Table, Dropdown, Glyph} from '../react-bootify';
 
 function debug() {
     console.log.apply(null, arguments);
@@ -34,7 +32,7 @@ Module.Glyph = class extends React.Component {
 
         return (
             <Table.Row header {...other} onClick={this.onClick} style={{opacity:'1.0'}}>
-                <Glyph icon={icon} style={{fontSize:'120%', cursor:'pointer'}} />
+                <Glyph icon={icon} />
             </Table.Row>
         );
     }

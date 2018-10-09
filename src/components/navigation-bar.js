@@ -2,7 +2,7 @@ import React from 'react';
 
 
 import logo from '../logo.svg';
-import {Icon} from 'react-bootify';
+import {Icon} from '../react-bootify';
 
 /*
 <UncontrolledDropdown nav inNavbar>

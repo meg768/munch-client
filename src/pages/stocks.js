@@ -5,7 +5,7 @@ import {isString} from 'yow/is';
 
 import Timer from 'yow/timer';
 import {Storage} from '../components/storage.js';
-import {Alert, Form, Glyph, Container, ButtonRow, Button} from 'react-bootify';
+import {Alert, Form, Glyph, Container, ButtonRow, Button} from '../react-bootify';
 import Page from '../components/page.js';
 import Spinner from '../components/spinner.js';
 
