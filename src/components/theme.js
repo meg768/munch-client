@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+require('bootswatch/dist/darkly/bootstrap.min.css');
+
 export default class Theme extends Component {
 
 
@@ -10,11 +12,6 @@ export default class Theme extends Component {
 
     constructor(props) {
         super(props);
-
-        if (this.props.name)
-            require('bootswatch/dist/' + this.props.name + '/bootstrap.min.css');
-        else
-            require('bootstrap-css-only/css/bootstrap.min.css');
 
     }
 
