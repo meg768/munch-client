@@ -228,8 +228,8 @@ export default class Module extends React.Component {
                     <StockList.Value name='symbol'>Symbol</StockList.Value>
                     <StockList.Value name='name'>Namn</StockList.Value>
                     <StockList.Value name='industry'>Industri</StockList.Value>
-                    <StockList.Value name='sector'>Sektor</StockList.Value>
                     <StockList.Value name='exchange'>Börs</StockList.Value>
+                    <StockList.Value name='country'>Land</StockList.Value>
                     <StockList.Value name='type'>Typ</StockList.Value>
                     <StockList.DropdownMenu>
                         <StockList.DropdownItem icon='chart-line'>Visa graf</StockList.DropdownItem>

@@ -187,32 +187,32 @@ export default class Module extends React.Component {
             return (
                 <Form>
                     <Form.Group>
-                        <Form.Label for="symbol">Symbol</Form.Label>
+                        <Form.Label>Symbol</Form.Label>
                         <Form.Input type="text" readOnly plainText id="symbol" value={this.state.stock.symbol}/>
                     </Form.Group>
 
                     <Form.Group>
-                        <Form.Label for="name">Namn</Form.Label>
+                        <Form.Label>Namn</Form.Label>
                         <Form.Input id='name' type="text" disabled={this.state.loading} value={this.state.stock.name} placeholder="Namn" onChange={this.onStockChange}/>
                     </Form.Group>
 
                     <Form.Row>
                         <Form.Group md={6}>
-                            <Form.Label for="industry">Industri</Form.Label>
+                            <Form.Label>Industri</Form.Label>
                             <Form.Input id='industry' type="text" disabled={this.state.loading} value={this.state.stock.industry} placeholder="Industri" onChange={this.onStockChange}/>
                         </Form.Group>
                         <Form.Group md={6}>
-                            <Form.Label for="sector">Sektor</Form.Label>
+                            <Form.Label>Sektor</Form.Label>
                             <Form.Input id='sector' type="text" disabled={this.state.loading} value={this.state.stock.sector} placeholder="Sektor" onChange={this.onStockChange}/>
                         </Form.Group>
                     </Form.Row>
                     <Form.Row>
                         <Form.Group md={6}>
-                            <Form.Label for="exchange">Börs</Form.Label>
+                            <Form.Label>Börs</Form.Label>
                             <Form.Input id='exchange' type="text" disabled={this.state.loading} value={this.state.stock.exchange} placeholder="Industri" onChange={this.onStockChange}/>
                         </Form.Group>
                         <Form.Group md={6}>
-                            <Form.Label for="type">Typ</Form.Label>
+                            <Form.Label>Typ</Form.Label>
                             <Form.Input id='type' type="text" disabled={this.state.loading} value={this.state.stock.type} placeholder="Industri" onChange={this.onStockChange}/>
                         </Form.Group>
                     </Form.Row>

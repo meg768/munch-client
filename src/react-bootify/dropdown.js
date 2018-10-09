@@ -132,7 +132,7 @@ export default class Dropdown extends Component {
 
 
     render() {
-        var {tag = 'div', isOpen, toggle, ...props} = this.props;
+        var {tag = 'div', placement, modifiers, isOpen, toggle, ...props} = this.props;
 
         return (
             <Tag tag={tag} {...props}>
@@ -189,6 +189,7 @@ Dropdown.Menu = class extends React.Component {
 
 
 
+
 Dropdown.Item = function(props) {
 
     var {tag = 'div', style, className, ...other} = props;
@@ -200,7 +201,6 @@ Dropdown.Item = function(props) {
         <Tag tag={tag} style={style} className={className} {...other}/>
     );
 }
-//Dropdown.Item.defaultStyle = {};
 
 Dropdown.Separator = function(props) {
 

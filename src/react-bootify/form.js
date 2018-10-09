@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import PropTypes from "prop-types";
 
 import Component from './component.js';
+import Tag from './tag.js';
 
 var _uniqueID = 0;
 
@@ -134,7 +135,6 @@ Form.Input = class extends React.Component  {
 
 };
 
-
 Form.Label = class extends React.Component  {
 
     render() {
@@ -145,5 +145,16 @@ Form.Label = class extends React.Component  {
 
         );
     }
+
+};
+
+
+Form.Label = function(props)  {
+
+    var {tag = 'label', ...other} = props;
+
+    return (
+        <Tag tag={tag} {...other}/>
+    );
 
 };
