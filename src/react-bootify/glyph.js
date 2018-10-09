@@ -1,21 +1,19 @@
 import React, {Component} from 'react';
 import classNames from 'classnames';
+import Tag from './tag.js';
 
-export default class Glyph extends Component {
 
-    render() {
-        var {className, name, glyph, icon, ...props} = this.props;
+export default function(props) {
 
-        if (icon && !name)
-            name = icon;
+    var {tag = 'i', className, name, glyph, icon, ...props} = props;
 
-        if (glyph && !name)
-            name = glyph;
+    if (icon && !name)
+        name = icon;
 
-        return (
-            <i className={classNames(className, 'icon-'+name)} {...props}/>
-        );
+    if (glyph && !name)
+        name = glyph;
 
-    }
-
-};
+    return (
+        <Tag tag={tag} className={classNames(className, 'icon-'+name)} {...props}/>
+    );
+}

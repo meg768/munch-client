@@ -24,10 +24,16 @@ export default class Dropdown extends Component {
 
     }
 
-    static get defaultProps() {
+    static propTypes = {
+        toggle : PropTypes.func,
+        isOpen : PropTypes.bool
+    };
+
+    static defaultProps() {
         return {
             placement: 'bottom-start',
             isOpen : false,
+            toggle : null,
             modifiers: {
                 preventOverflow: {
                     boundariesElement: 'viewport',
@@ -126,12 +132,13 @@ export default class Dropdown extends Component {
 
 
     render() {
+        var {tag = 'div', isOpen, toggle, ...props} = this.props;
 
         return (
-            <div>
+            <Tag tag={tag} {...props}>
                 {this.renderDropdownTarget()}
                 {this.renderDropdownMenu()}
-            </div>
+            </Tag>
         );
 
     }

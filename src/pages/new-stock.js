@@ -273,7 +273,7 @@ export default class Example extends React.Component {
                         <StockList.Value name='sector'>Sektor</StockList.Value>
                         <StockList.Value name='exchange'>Börs</StockList.Value>
                         <StockList.Value name='type'>Typ</StockList.Value>
-                        <StockList.Glyph icon='cancel-circled' style={{textAlign:'right'}} onClick={this.onRemoveStock}/>
+                        <StockList.Glyph icon='cancel-circled' onClick={this.onRemoveStock}/>
                     </StockList.Table>
                     <ButtonRow style={{textAlign:'right'}}>
                         <Button color='primary' disabled={this.state.stocks.length == 0} onClick={this.onSaveStocks}>Spara</Button>

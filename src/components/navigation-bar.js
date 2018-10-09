@@ -2,7 +2,7 @@ import React from 'react';
 
 
 import logo from '../logo.svg';
-import {Icon} from '../react-bootify';
+import {Glyph} from '../react-bootify';
 
 /*
 <UncontrolledDropdown nav inNavbar>
@@ -52,7 +52,7 @@ class NavigationBar extends React.Component {
         return (
             <nav className="navbar navbar-expand-sm navbar-light bg-light">
               <a className="navbar-brand" href="#">
-                  <Icon style={{transform:'scale(3.0)', color:'green', marginRight:'0.75em', marginLeft:'0.5em'}} icon='chart-line'></Icon>
+                  <Glyph style={{transform:'scale(3.0)', color:'green', marginRight:'0.75em', marginLeft:'0.5em'}} icon='chart-line'></Glyph>
                   Munch
 
 
@@ -76,7 +76,7 @@ class NavigationBar extends React.Component {
             <div style={style}>
                 <Navbar color="light" light expand="md">
                     <NavbarBrand href="#/">
-                        <Icon style={{transform:'scale(3.0)', color:'green', marginRight:'0.75em', marginLeft:'0.5em'}} icon='chart-line'></Icon>
+                        <Glyph style={{transform:'scale(3.0)', color:'green', marginRight:'0.75em', marginLeft:'0.5em'}} icon='chart-line'></Glyph>
                         Munch
                     </NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />

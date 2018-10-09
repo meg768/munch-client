@@ -12,6 +12,8 @@ function debug() {
 
 var Module = {};
 
+
+
 Module.Glyph = class extends React.Component {
 
 
@@ -31,9 +33,7 @@ Module.Glyph = class extends React.Component {
         var {icon, onClick, ...other} = this.props;
 
         return (
-            <Table.Row header {...other} onClick={this.onClick} style={{opacity:'1.0'}}>
-                <Glyph icon={icon} />
-            </Table.Row>
+            <Glyph icon={icon} {...other} onClick={this.onClick} style={{fontSize:'120%', opacity:'1.0'}}/>
         );
     }
 }
@@ -68,33 +68,20 @@ Module.DropdownMenu = class extends React.Component {
 
 
     render() {
-        var id = 'PIM-' + this.props.row;
-
-        var listGroupStyle = {};
-        listGroupStyle.cursor = 'pointer';
-        listGroupStyle.fontSize = '125%';
-
-        var iconStyle = {};
-        iconStyle.fontSize = '120%';
-        iconStyle.cursor = 'pointer';
 
         var items = React.Children.map(this.props.children, (child, index) => {
             return React.cloneElement(child, {key:index, stock:this.props.stock, parent:this});
         });
 
-
-
         return (
-            <Table.Row>
-                <Dropdown isOpen={this.state.isOpen} toggle={this.toggle} placement='left-start'>
-                    <Dropdown.Target>
-                        <Glyph icon={this.props.icon} style={iconStyle}  onClick={this.toggle} />
-                    </Dropdown.Target>
-                    <Dropdown.Menu >
-                        {items}
-                    </Dropdown.Menu>
-                </Dropdown>
-            </Table.Row>
+            <Dropdown isOpen={this.state.isOpen} toggle={this.toggle} placement='left-start'>
+                <Dropdown.Target>
+                    <Glyph icon={this.props.icon} onClick={this.toggle} />
+                </Dropdown.Target>
+                <Dropdown.Menu>
+                    {items}
+                </Dropdown.Menu>
+            </Dropdown>
         );
     }
 
@@ -236,18 +223,33 @@ Module.Table = class extends React.Component {
             }
 
             if (child.type === Module.Glyph) {
-                return React.cloneElement(child, {key:index, stock:stock});
+                return (
+                    <Table.Col>
+                        {React.cloneElement(child, {key:index, row:rowNumber, stock:stock})}
+                    </Table.Col>
+                );
             }
 
 
             if (child.type === Module.DropdownMenu) {
-                return React.cloneElement(child, {key:index, row:rowNumber, stock:stock});
+                return (
+                    <Table.Col>
+                        {React.cloneElement(child, {key:index, row:rowNumber, stock:stock})}
+                    </Table.Col>
+
+                );
             }
 
 
             if (child.type === Module.Placeholder) {
-                return React.cloneElement(child, {key:index, row:rowNumber, stock:stock});
+                return (
+                    <Table.Col>
+                        {React.cloneElement(child, {key:index, row:rowNumber, stock:stock})}
+                    </Table.Col>
+
+                );
             }
+
 
         });
 
