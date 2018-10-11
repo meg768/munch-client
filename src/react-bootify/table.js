@@ -22,6 +22,7 @@ export default class Table extends Component  {
             dark       : false,
             bordered   : false,
             borderless : false,
+            responsive : false,
             size       : 'md',
             style      : {width:'100%'}
         };
@@ -29,7 +30,7 @@ export default class Table extends Component  {
 
 
     render() {
-        var {style, className, striped, dark, hover, bordered, borderless, size, ...props} = this.props;
+        var {style, responsive, className, striped, dark, hover, bordered, borderless, size, ...props} = this.props;
 
         className = classNames(className, 'table');
         className = classNames(className, striped    ? 'table-striped'       : false);
@@ -39,28 +40,51 @@ export default class Table extends Component  {
         className = classNames(className, borderless ? 'table-borderless'    : false);
         className = classNames(className, size       ? 'table-' + size       : false);
 
-        return (
-            <div className='table-responsive-sm'>
-                <table {...props} className={className} style={style} >
-                    {this.props.children}
-                </table>
-            </div>
+        var table = (
+            <table {...props} className={className} style={style}>
+                {this.props.children}
+            </table>
         );
+
+        if (responsive) {
+            var wrapperClassName = typeof responsive == 'string' ? 'table-responsive-' + responsive : 'table-responsive';
+
+            table = (
+                <div className={wrapperClassName}>
+                    {table}
+                </div>
+            );
+
+        }
+
+        return table;
     }
 };
 
-
 Table.Row = (props) => {
-    return <Tag tag='tr' {...props}/>
+
+    var {className, bg, color, ...other} = props;
+
+    className = classNames(className, {[`table-${color}`]:color});
+
+    return <Tag tag='tr' className={className} {...other}/>
 }
 
 Table.Col = function(props)  {
-    const {header, ...other} = props;
-    return header ? <Tag tag='th' {...other}/> : <Tag tag='td' {...other}/>;
+    var {className, header, color, ...other} = props;
+
+    className = classNames(className, {[`table-${color}`]:color});
+
+    return <Tag tag = {header ? 'th' : 'td'} className={className} {...other}/>;
 }
 
 Table.Header = function(props)  {
-    return <Tag tag='thead' {...props}/>
+    var {className, light, dark, ...other} = props;
+
+    className = classNames(className, {'thead-dark': dark});
+    className = classNames(className, {'thead-light': light});
+
+    return <Tag tag='thead' className={className} {...other}/>
 }
 
 Table.Body = function(props)  {

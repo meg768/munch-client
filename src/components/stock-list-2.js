@@ -78,7 +78,7 @@ Module.Table = class extends React.Component {
         return React.Children.map(this.props.children, (child, index) => {
 
            return (
-               <Table.Col key={index}>
+               <Table.Col key={index} >
                     {child.props.render ? child.props.render(stock) : '-'}
                 </Table.Col>
 
@@ -103,8 +103,8 @@ Module.Table = class extends React.Component {
         });
 
         return (
-            <Table.Header>
-                <Table.Row>
+            <Table.Header dark>
+                <Table.Row color='warning' >
                     {titles}
                 </Table.Row>
             </Table.Header>
@@ -117,7 +117,7 @@ Module.Table = class extends React.Component {
 
         var rows = this.props.stocks.map((stock, index) => {
             return (
-                <Table.Row key={index}>{this.renderRow(stock, index)}</Table.Row>
+                <Table.Row  key={index}>{this.renderRow(stock, index)}</Table.Row>
             );
         });
 
