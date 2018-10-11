@@ -1,11 +1,11 @@
 import React from 'react';
-import StockList from '../components/stock-list.js';
+import StockList from '../components/stock-list-2.js';
 import sprintf from 'yow/sprintf';
 import {isString} from 'yow/is';
 
 import Timer from 'yow/timer';
 import {Storage} from '../components/storage.js';
-import {Alert, Form, Glyph, Container, ButtonRow, Button} from '../react-bootify';
+import {Alert, Form, Glyph, Container, ButtonRow, Button, Dropdown} from '../react-bootify';
 import Page from '../components/page.js';
 import Spinner from '../components/spinner.js';
 
@@ -34,6 +34,7 @@ export default class Module extends React.Component {
         this.onKeyPress = this.onKeyPress.bind(this);
         this.onRemoveStock = this.onRemoveStock.bind(this);
         this.onChangeStock = this.onChangeStock.bind(this);
+        this.toggleDropdown = this.toggleDropdown.bind(this);
     }
 
     loadState() {
@@ -42,6 +43,8 @@ export default class Module extends React.Component {
             hits: 0,
             search: '',
             alert: null,
+            dropdownOpen: false,
+            currentSymbol: '',
             loading: false
         });
 
@@ -53,6 +56,10 @@ export default class Module extends React.Component {
 
     componentWillUnmount() {
         this.saveState();
+    }
+
+    toggleDropdown() {
+        this.setState({dropdownOpen:!this.state.dropdownOpen});
     }
 
 
@@ -217,14 +224,64 @@ export default class Module extends React.Component {
     }
 
 
+
     renderList() {
 
 
         if (this.state.stocks && this.state.stocks.length > 0) {
 
 
+            var renderDropdown = (stock) => {
+
+                var toggle = () => {
+                    var state = {currentSymbol:isOpen() ? '' : stock.symbol};
+                    console.log('toggle', state);
+                    this.setState(state);
+                };
+
+                var dismiss = () => {
+                    this.setState({currentSymbol:''});
+                }
+
+                var isOpen = () => {
+                    return this.state.currentSymbol == stock.symbol;
+                }
+
+                var edit = () => {
+                    this.onChangeStock(stock);
+                }
+
+                return (
+                    <Dropdown isOpen={isOpen()} dismiss={dismiss} placement='left-start'>
+                        <Dropdown.Target>
+                            <Glyph icon='menu' onClick={toggle} />
+                        </Dropdown.Target>
+                        <Dropdown.Menu>
+                            <Dropdown.Item >Visa graf</Dropdown.Item>
+                            <Dropdown.Item onClick={edit}>Redigera</Dropdown.Item>
+                            <Dropdown.Separator/>
+                            <Dropdown.Item >Radera</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                )
+            };
             return (
                 <StockList.Table stocks={this.state.stocks}>
+                    <StockList.Value render={(stock) => {return stock.symbol}}>Symbol</StockList.Value>
+                    <StockList.Value render={(stock) => {return stock.name}}>Namn</StockList.Value>
+                    <StockList.Value render={(stock) => {return stock.industry}}>Industri</StockList.Value>
+                    <StockList.Value render={(stock) => {return stock.exchange}}>Börs</StockList.Value>
+                    <StockList.Value render={(stock) => {return stock.country}}>Land</StockList.Value>
+                    <StockList.Value render={(stock) => {return stock.type}}>Typ</StockList.Value>
+                    <StockList.Value render={renderDropdown}>
+                        <Glyph name='menu'/>
+                    </StockList.Value>
+
+                </StockList.Table>
+            );
+
+            return (
+                <StockList.Table stocks={this.state.stocks} onStockClick={this.onStockClick}>
                     <StockList.Value name='symbol'>Symbol</StockList.Value>
                     <StockList.Value name='name'>Namn</StockList.Value>
                     <StockList.Value name='industry'>Industri</StockList.Value>

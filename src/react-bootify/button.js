@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import classNames from 'classnames';
 import PropTypes from "prop-types";
+import Tag from './tag.js';
 
 export default class Button extends Component  {
 
@@ -10,7 +11,6 @@ export default class Button extends Component  {
         this.onClick = this.onClick.bind(this);
     }
 
-
     static propTypes = {
         color      : PropTypes.string,
         tag        : PropTypes.string,
@@ -18,12 +18,10 @@ export default class Button extends Component  {
         disabled   : PropTypes.bool
     };
 
-    static get defaultProps() {
-        return {
-            color    : 'primary',
-            tag      : 'button',
-            disabled : false
-        };
+    static defaultProps = {
+        color    : 'primary',
+        tag      : 'button',
+        disabled : true
     }
 
     onClick(event) {
@@ -40,23 +38,23 @@ export default class Button extends Component  {
 
     render() {
 
-        var {tag : Tag, className, color, ...props} = this.props;
+        var {tag, className, outline, color, ...props} = this.props;
 
         className = classNames(className, 'btn');
         className = classNames(className, {[`btn-${color}`]:color});
+        className = classNames(className, {[`btn-outline-${color}`]:outline});
 
-
-        if (!Tag) {
-            Tag = props.href ? 'a' : 'button';
+        if (!tag) {
+            tag = props.href ? 'a' : 'button';
         }
 
         // If a href is given and tag is 'button', replace with 'a'
-        if (props.href && Tag === 'button') {
-            Tag = 'a';
+        if (props.href && tag === 'button') {
+            tag = 'a';
         }
 
         return (
-            <Tag {...props} className={className} onClick={this.onClick}>
+            <Tag tag={tag} {...props} className={className} onClick={this.onClick}>
                 {this.props.children}
             </Tag>
 

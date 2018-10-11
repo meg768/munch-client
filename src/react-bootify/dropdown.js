@@ -25,8 +25,8 @@ export default class Dropdown extends Component {
     }
 
     static propTypes = {
-        toggle : PropTypes.func,
-        isOpen : PropTypes.bool
+        dismiss : PropTypes.func,
+        isOpen  : PropTypes.bool
     };
 
     static defaultProps() {
@@ -34,6 +34,7 @@ export default class Dropdown extends Component {
             placement: 'bottom-start',
             isOpen : false,
             toggle : null,
+            dismiss : null,
             modifiers: {
                 preventOverflow: {
                     boundariesElement: 'viewport',
@@ -45,7 +46,7 @@ export default class Dropdown extends Component {
 
     componentDidMount() {
 
-        if (this.props.toggle)
+        if (this.props.dismiss)
             document.addEventListener('click', this.onDocumentClick, true);
 
         this.createPopper();
@@ -60,7 +61,7 @@ export default class Dropdown extends Component {
 
     componentWillUnmount() {
 
-        if (this.props.toggle)
+        if (this.props.dismiss)
             document.removeEventListener('click', this.onDocumentClick, true);
 
         this.destroyPopper();
@@ -69,10 +70,11 @@ export default class Dropdown extends Component {
     onDocumentClick(event) {
 
         if (this.props.isOpen) {
-            if (this.props.toggle && !this.dropdownNode.contains(event.target)) {
-                this.props.toggle();
+            if (!this.dropdownNode.contains(event.target)) {
+                if (this.props.dismiss) {
+                    this.props.dismiss();
+                }
             }
-
         }
     }
 
@@ -132,7 +134,7 @@ export default class Dropdown extends Component {
 
 
     render() {
-        var {tag = 'div', placement, modifiers, isOpen, toggle, ...props} = this.props;
+        var {tag = 'div', placement, modifiers, isOpen, toggle, dismiss, ...props} = this.props;
 
         return (
             <Tag tag={tag} {...props}>

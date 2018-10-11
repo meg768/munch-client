@@ -1,9 +1,9 @@
-import './App.css';
 
 import React from 'react';
 import Router from './components/router.js';
 import Theme from './components/theme.js';
 
+import './App.css';
 
 export default class App extends React.Component {
 
