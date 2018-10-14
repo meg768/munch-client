@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert} from '../react-bootify';
+import {Alert} from 'react-bootify';
 
 
 import ReactDOM from 'react-dom';

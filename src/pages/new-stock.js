@@ -1,18 +1,13 @@
 import React from 'react';
 import Request from 'yow/request';
 import sprintf from 'yow/sprintf';
-import yahoo from 'yahoo-finance';
-
-import {isFunction} from 'yow/is';
-import {isArray, isString} from 'yow/is';
+import {isString} from 'yow/is';
 import Page from '../components/page.js';
 
-import {Row, Col, Table, Container, Form, Button, Alert} from '../react-bootify';
+import {Col, Row, Container, Form, Button, Alert, Glyph} from 'react-bootify';
+
 import Spinner from '../components/spinner.js';
-
-import {ButtonRow, Icon, Glyph} from '../react-bootify';
 import StockList from '../components/stock-list.js';
-
 import {Storage} from '../components/storage.js';
 
 
@@ -275,9 +270,9 @@ export default class Example extends React.Component {
                         <StockList.Value name='type'>Typ</StockList.Value>
                         <StockList.Glyph icon='cancel-circled' onClick={this.onRemoveStock}/>
                     </StockList.Table>
-                    <ButtonRow style={{textAlign:'right'}}>
+                    <div style={{textAlign:'right'}}>
                         <Button color='primary' disabled={this.state.stocks.length == 0} onClick={this.onSaveStocks}>Spara</Button>
-                    </ButtonRow>
+                    </div>
                 </div>
             );
 

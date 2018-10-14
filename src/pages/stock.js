@@ -1,15 +1,13 @@
 import React from 'react';
 
-import StockList from '../components/stock-list.js';
-import {Container, Row, Col, Form, Alert, Button, ButtonRow, Glyph} from '../react-bootify';
+
+import {Container, Row, Col, Form, Alert, Button, Glyph} from 'react-bootify';
 import Page from '../components/page.js';
 import Spinner from '../components/spinner.js';
 
 import Request from 'yow/request';
 import {Storage} from '../components/storage.js';
 
-import classNames from 'classnames';
-import PropTypes from "prop-types";
 
 function debug() {
     console.log.apply(null, arguments);
@@ -167,11 +165,11 @@ export default class Module extends React.Component {
     renderButtons() {
         if (!this.state.loading && !this.state.alert) {
             return(
-                <ButtonRow style={{textAlign:'right'}}>
+                <div style={{textAlign:'right'}}>
                     <Button color='primary' onClick={this.onOK}>
                         Spara
                     </Button>
-                </ButtonRow>
+                </div>
 
             );
 

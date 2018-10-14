@@ -3,7 +3,7 @@ import React from 'react';
 
 import sprintf from 'yow/sprintf';
 
-import {Table, Dropdown, Glyph} from '../react-bootify';
+import {Table, Dropdown, Glyph} from 'react-bootify';
 
 function debug() {
     console.log.apply(null, arguments);
@@ -103,8 +103,8 @@ Module.Table = class extends React.Component {
         });
 
         return (
-            <Table.Header dark>
-                <Table.Row color='warning' >
+            <Table.Header >
+                <Table.Row>
                     {titles}
                 </Table.Row>
             </Table.Header>

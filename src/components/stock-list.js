@@ -3,7 +3,7 @@ import React from 'react';
 
 import sprintf from 'yow/sprintf';
 
-import {Table, Dropdown, Glyph} from '../react-bootify';
+import {Table, Dropdown, Glyph} from 'react-bootify';
 
 function debug() {
     console.log.apply(null, arguments);

@@ -5,7 +5,7 @@ import {isString} from 'yow/is';
 
 import Timer from 'yow/timer';
 import {Storage} from '../components/storage.js';
-import {Alert, Form, Glyph, Container, ButtonRow, Button, Dropdown} from '../react-bootify';
+import {Alert, Form, Glyph, Container, Button, Dropdown} from 'react-bootify';
 import Page from '../components/page.js';
 import Spinner from '../components/spinner.js';
 
@@ -362,14 +362,14 @@ export default class Module extends React.Component {
     renderButtons() {
         if (!this.state.loading) {
             return(
-                <ButtonRow style={{textAlign:'right'}}>
+                <div style={{textAlign:'right'}}>
                     <Button color='primary' href='#/new-stock'>
                         <Glyph icon='plus-circled'>
                         </Glyph>
                         Lägg till symboler
                     </Button>
 
-                </ButtonRow>
+                </div>
 
             );
 
