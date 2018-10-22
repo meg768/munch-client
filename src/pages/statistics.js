@@ -2,9 +2,8 @@
 import React from 'react';
 
 
-import { ListGroup, ListGroupItem, ListGroupItemHeading } from 'reactstrap';
 import Page from '../components/page.js';
-import {Container, Row, Col} from 'react-bootify';
+import {Container, Row, Col, ListGroup} from 'react-bootify';
 import Request from 'yow/request';
 import Spinner from '../components/spinner.js';
 
@@ -83,13 +82,15 @@ export default class Module extends React.Component {
         if (this.state.stats) {
             var children = this.state.stats.map((stat, index) => {
                 return (
-                    <ListGroupItem key={index}>{stat.name} - {stat.number}</ListGroupItem>
+                    <ListGroup.Item key={index}>{stat.name} - {stat.number}</ListGroup.Item>
                 );
             });
 
             return (
                 <ListGroup>
-                    <ListGroupItem disabled><ListGroupItemHeading>Statistik</ListGroupItemHeading></ListGroupItem>
+                    <ListGroup.Item disabled>
+                        <strong>Statistik</strong>
+                    </ListGroup.Item>
                     {children}
                 </ListGroup>
             );
