@@ -233,32 +233,17 @@ export default class Module extends React.Component {
 
             var renderDropdown = (stock) => {
 
-                var toggle = () => {
-                    var state = {currentSymbol:isOpen() ? '' : stock.symbol};
-                    console.log('toggle', state);
-                    this.setState(state);
-                };
-
-                var dismiss = () => {
-                    this.setState({currentSymbol:''});
-                }
-
-                var isOpen = () => {
-                    return this.state.currentSymbol == stock.symbol;
-                }
-
-                var edit = () => {
-                    this.onChangeStock(stock);
-                }
-
                 return (
-                    <Dropdown isOpen={isOpen()} dismiss={dismiss} placement='left-start'>
+                    <Dropdown placement='left-start'>
                         <Dropdown.Target>
-                            <Glyph icon='menu' onClick={toggle} />
+                            <div>
+                            <Glyph icon='menu'/>
+
+                            </div>
                         </Dropdown.Target>
                         <Dropdown.Menu>
                             <Dropdown.Item >Visa graf</Dropdown.Item>
-                            <Dropdown.Item onClick={edit}>Redigera</Dropdown.Item>
+                            <Dropdown.Item onClick={this.onChangeStock.bind(this, stock)} >Redigera</Dropdown.Item>
                             <Dropdown.Separator/>
                             <Dropdown.Item >Radera</Dropdown.Item>
                         </Dropdown.Menu>
