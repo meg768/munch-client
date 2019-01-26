@@ -1,8 +1,8 @@
 
 import React from 'react';
 import Router from './components/router.js';
-import Theme from './components/theme.js';
 
+import 'react-bootify/bootswatch/materia/bootstrap.css';
 import './App.css';
 
 export default class App extends React.Component {
@@ -14,9 +14,7 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <Theme name='materia'>
-                <Router/>
-            </Theme>
+            <Router/>
         );
     }
 }

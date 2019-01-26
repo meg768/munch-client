@@ -5,9 +5,10 @@ import {isString} from 'yow/is';
 
 import Timer from 'yow/timer';
 import {Storage} from '../components/storage.js';
-import {Alert, Form, Glyph, Container, Button, Dropdown} from 'react-bootify';
+import {Tag, Alert, Form, Container, Button, Dropdown} from 'react-bootify';
 import Page from '../components/page.js';
 import Spinner from '../components/spinner.js';
+import Glyph from '../components/glyph.js';
 
 import Request from 'yow/request';
 
@@ -15,7 +16,6 @@ import Request from 'yow/request';
 function debug() {
     console.log.apply(null, arguments);
 }
-
 
 export default class Module extends React.Component {
 
@@ -227,6 +227,7 @@ export default class Module extends React.Component {
 
     renderList() {
 
+        var menuIcon = require('../glyphs/bars-solid.svg');
 
         if (this.state.stocks && this.state.stocks.length > 0) {
 
@@ -237,8 +238,7 @@ export default class Module extends React.Component {
                     <Dropdown placement='left-start'>
                         <Dropdown.Target>
                             <div>
-                            <Glyph icon='menu'/>
-
+                                <Glyph svg={menuIcon}/>
                             </div>
                         </Dropdown.Target>
                         <Dropdown.Menu>
@@ -259,7 +259,7 @@ export default class Module extends React.Component {
                     <StockList.Value render={(stock) => {return stock.country}}>Land</StockList.Value>
                     <StockList.Value render={(stock) => {return stock.type}}>Typ</StockList.Value>
                     <StockList.Value render={renderDropdown}>
-                        <Glyph name='menu'/>
+                        <Glyph svg={menuIcon}/>
                     </StockList.Value>
 
                 </StockList.Table>
@@ -345,11 +345,13 @@ export default class Module extends React.Component {
         }
     }
     renderButtons() {
+        var icon = require('../glyphs/times-circle-solid.svg');
+
         if (!this.state.loading) {
             return(
                 <div style={{textAlign:'right'}}>
                     <Button color='primary' href='#/new-stock'>
-                        <Glyph icon='plus-circled'>
+                        <Glyph svg={icon}>
                         </Glyph>
                         Lägg till symboler
                     </Button>
@@ -374,7 +376,7 @@ export default class Module extends React.Component {
                         </Form.Group>
                         <Form.Group xs={2} sm={2} md={2} lg={1} style={{textAlign:'right'}}>
                             <Button disabled={this.state.loading || this.state.search.length == 0} color='primary' onClick={this.onSearch}>
-                                <Glyph icon='search-solid'>
+                                <Glyph svg={require('../glyphs/search-solid.svg')}>
                                 </Glyph>
                             </Button>
                         </Form.Group>

@@ -1,33 +1,44 @@
 import React from 'react';
 import classNames from 'classnames';
-import Tag from 'react-bootify';
+import {Tag} from 'react-bootify';
 
 var _glyphs = {};
 
-export default function Glyph(props) {
+export default class Glyph extends React.Component {
 
-    var {tag, className, name, glyph, icon, ...other} = props;
+    constructor(props) {
+        super(props);
+    }
 
-    if (icon && !name)
-        name = icon;
+    render() {
+        var svg = this.props.svg; //require('../glyphs/' + this.props.name + '.svg');
+        var svgURL = 'url(' + svg + ')';
+        var style = {};
+        
+        style.textColor = 'inherit';
+        style.maskImage = svgURL;
+        style.maskRepeat = 'no-repeat';
+        style.WebkitMaskImage = svgURL;
+        style.WebkitMaskRepeat = 'no-repeat';
+        style.display = 'inline';
+        //style.width = '2rem';
+        //style.height = '2rem';
 
-    if (glyph && !name)
-        name = glyph;
+        return (
+            <Tag  style={style}   backgroundColor='primary'>
+                &nbsp;XXX
+            </Tag>
+        );
 
-    var svg = _glyphs[name];
-    console.log('glyf', name, svg);
-    return (
-        <img src={svg} {...other}/>
-    );
+        return (
+            <Tag tag='img' src={svg} textColor='primary'/>
+        );
+
+        return (
+            <img src={svg}/>
+
+        );
+
+    }
 }
 
-Glyph.defaultProps = {
-    tag: 'i',
-    prefix: 'icon-'
-};
-
-
-Glyph.add = function(name, svg) {
-    console.log('adding', name, svg)
-    _glyphs[name] = svg;
-}
